@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Mail } from "lucide-react";
 
-export default function SignInPage() {
+export function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -167,5 +167,19 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-paper flex items-center justify-center font-mono text-xs text-text-muted">
+          Loading sign in...
+        </div>
+      }
+    >
+      <SignInContent />
+    </Suspense>
   );
 }
