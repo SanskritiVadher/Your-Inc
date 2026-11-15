@@ -118,7 +118,7 @@ export function FrameworkFinderView() {
             <button
               type="submit"
               disabled={loading || !problemDescription.trim()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 disabled:opacity-50 transition-colors shadow-2xs whitespace-nowrap"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 disabled:opacity-50 transition-colors shadow-2xs whitespace-nowrap"
             >
               <Sparkles size={14} />
               <span>{loading ? "Matching frameworks..." : "Find frameworks"}</span>

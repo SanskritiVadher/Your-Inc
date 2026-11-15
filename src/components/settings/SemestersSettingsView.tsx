@@ -330,7 +330,7 @@ export function SemestersSettingsView({
           <button
             type="button"
             onClick={() => setIsAddOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
           >
             <Plus size={14} />
             <span className="whitespace-nowrap">Add Semester</span>
@@ -616,7 +616,7 @@ export function SemestersSettingsView({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Save Semester
             </button>
@@ -673,7 +673,7 @@ export function SemestersSettingsView({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Save Changes
             </button>
@@ -749,7 +749,7 @@ export function SemestersSettingsView({
               <button
                 type="submit"
                 disabled={!selectedFile || importing}
-                className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
+                className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
               >
                 {importing ? "Processing Archive..." : "Start Import"}
               </button>
@@ -768,7 +768,7 @@ export function SemestersSettingsView({
         title={`${wrapUpModalSemester?.name || "Semester"} · 1-Page Wrap-Up`}
       >
         <div className="space-y-6 text-xs font-body">
-          <div className="p-6 rounded-md bg-[#FBF5E8] dark:bg-[#1A2234] border border-[#E3D6C1] dark:border-border text-text space-y-5 shadow-inner">
+          <div className="p-6 rounded-md bg-[#FBF5E8] dark:bg-[#24201B] border border-[#E3D6C1] dark:border-border text-text space-y-5 shadow-inner">
             {/* Journal Header */}
             <div className="text-center space-y-1 pb-3 border-b border-border/40">
               <span className="text-xs font-body font-semibold text-cobalt">
@@ -794,7 +794,7 @@ export function SemestersSettingsView({
                     <div>
                       <span className="font-semibold text-text">{s.code}</span> · {s.name}
                     </div>
-                    <span className="text-turquoise font-medium">{s.mastery || Math.round(s.sharePrice || 0)}%</span>
+                    <span className="text-haldi font-medium">{s.mastery || Math.round(s.sharePrice || 0)}%</span>
                   </div>
                 ))}
               </div>
@@ -853,7 +853,7 @@ export function SemestersSettingsView({
                 setWrapUpModalSemester(null);
                 setWrapUpData(null);
               }}
-              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Done Reading
             </button>

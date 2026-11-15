@@ -81,7 +81,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute top-3 bottom-3 left-0 w-3"
               style={{
                 background:
-                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(180deg, #C8962E 0px, #C8962E 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
               }}
             />
             {/* Right border */}
@@ -89,7 +89,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute top-3 bottom-3 right-0 w-3"
               style={{
                 background:
-                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(180deg, #C8962E 0px, #C8962E 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
               }}
             />
           </div>

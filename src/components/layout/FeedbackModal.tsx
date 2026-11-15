@@ -83,7 +83,7 @@ export function FeedbackModal() {
           <div className="bg-paper border border-border w-full max-w-md p-6 space-y-4">
             <div className="flex items-start justify-between">
               <div>
-                <span className="font-body text-xs text-turquoise font-medium">
+                <span className="font-body text-xs text-primary font-medium">
                   {isExamSurvey ? "Pilot Survey" : "Feedback"}
                 </span>
                 <h3 className="font-heading text-xl text-text font-normal mt-0.5">
@@ -96,7 +96,7 @@ export function FeedbackModal() {
             </div>
 
             {submitted ? (
-              <div className="p-4 bg-turquoise/10 border border-turquoise/30 text-turquoise font-body text-xs text-center flex items-center justify-center gap-2">
+              <div className="p-4 bg-primary/10 border border-primary/30 text-primary font-body text-xs text-center flex items-center justify-center gap-2">
                 <Check size={16} /> Thank you! Your feedback has been received.
               </div>
             ) : (

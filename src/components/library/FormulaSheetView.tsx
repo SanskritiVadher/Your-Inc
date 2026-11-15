@@ -290,7 +290,7 @@ export function FormulaSheetView({
               onClick={() => setSelectedCategory(cat)}
               className={`px-3 py-1 rounded text-xs font-body transition-colors ${
                 selectedCategory === cat
-                  ? "bg-cobalt text-white dark:text-[#141B2D] font-medium"
+                  ? "bg-cobalt text-white dark:text-[#1A1714] font-medium"
                   : "bg-bg border border-border text-text-muted hover:text-text"
               }`}
             >
@@ -431,7 +431,7 @@ export function FormulaSheetView({
                 <div className="pt-2 flex justify-end print:hidden">
                   <button
                     onClick={() => handleOpenPractice(f)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-all shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 transition-all shadow-xs"
                   >
                     <Sparkles size={13} />
                     <span>Practice (New Numbers)</span>
@@ -500,7 +500,7 @@ export function FormulaSheetView({
                     <button
                       type="submit"
                       disabled={practiceLoading || !userAnswer.trim()}
-                      className="px-5 py-2.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shrink-0 disabled:opacity-50"
+                      className="px-5 py-2.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shrink-0 disabled:opacity-50"
                     >
                       {practiceLoading ? "Checking..." : "Check Answer"}
                     </button>
@@ -553,7 +553,7 @@ export function FormulaSheetView({
                 <div className="flex items-center justify-end gap-2 pt-2 border-t border-border/40">
                   <button
                     onClick={() => handleOpenPractice(practiceFormula)}
-                    className="inline-flex items-center gap-1 px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors"
+                    className="inline-flex items-center gap-1 px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors"
                   >
                     <RotateCcw size={13} />
                     <span>Try Another Set</span>

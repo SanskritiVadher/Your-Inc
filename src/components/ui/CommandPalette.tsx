@@ -78,7 +78,7 @@ export const CommandPalette: React.FC = () => {
           let icon = <BookOpen size={16} className="text-cobalt" />;
           if (item.type === "note") icon = <FileText size={16} className="text-leaf" />;
           if (item.type === "project") icon = <Briefcase size={16} className="text-turmeric" />;
-          if (item.type === "topic") icon = <CheckCircle2 size={16} className="text-turquoise" />;
+          if (item.type === "topic") icon = <CheckCircle2 size={16} className="text-haldi" />;
           if (item.type === "assignment") icon = <CalendarCheck2 size={16} className="text-sindoor" />;
 
           return {
@@ -177,7 +177,7 @@ export const CommandPalette: React.FC = () => {
       id: "nav-planner",
       title: "Operations Planner",
       subtitle: "Deadlines, assignments and credit rating maintenance",
-      icon: <CalendarCheck2 size={18} className="text-indigo" />,
+      icon: <CalendarCheck2 size={18} className="text-primary" />,
       category: "Navigation",
       action: () => {
         router.push("/planner");

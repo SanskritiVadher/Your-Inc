@@ -262,7 +262,7 @@ export const NotificationCenterModal: React.FC<NotificationCenterModalProps> = (
                 <div className="p-3.5 rounded bg-bg border border-border space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Moon className="w-4 h-4 text-indigo" />
+                      <Moon className="w-4 h-4 text-primary" />
                       <span className="font-bold text-text">Quiet Hours (Do Not Disturb)</span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer">

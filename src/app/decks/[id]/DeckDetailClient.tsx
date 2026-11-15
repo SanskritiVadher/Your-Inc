@@ -155,7 +155,7 @@ export const DeckDetailClient: React.FC<DeckDetailClientProps> = ({ initialDeck 
 
       {/* Enrolled Student Copyright Notice Banner if shared */}
       {isShared && (
-        <div className="p-3 rounded-[3px] border border-indigo/40 bg-indigo/5 flex items-center space-x-2 text-xs font-mono text-indigo">
+        <div className="p-3 rounded-[3px] border border-primary/40 bg-primary/5 flex items-center space-x-2 text-xs font-mono text-primary">
           <AlertCircle size={15} className="shrink-0" />
           <span>Notice: For enrolled students only. Do not distribute outside your class.</span>
         </div>

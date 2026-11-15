@@ -381,7 +381,7 @@ export function NewsPageClient() {
                   onClick={() => setSelectedSubject(subj.val)}
                   className={`px-2.5 py-1 rounded transition-colors ${
                     selectedSubject === subj.val
-                      ? "bg-primary text-white dark:text-[#141B2D] font-medium"
+                      ? "bg-primary text-white dark:text-[#1A1714] font-medium"
                       : "bg-bg text-text hover:bg-border/40"
                   }`}
                 >
@@ -446,7 +446,7 @@ export function NewsPageClient() {
                   {/* Top metadata */}
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
                     <div className="flex items-center space-x-2">
-                      <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-indigo/10 text-indigo border border-indigo/20">
+                      <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
                         {item.subjectCode}
                       </span>
                       <span className="text-xs font-mono text-text-muted">
@@ -509,7 +509,7 @@ export function NewsPageClient() {
                         </div>
 
                         <div className="p-3 rounded bg-surface border border-border/60">
-                          <div className="flex items-center space-x-1.5 text-indigo font-body text-xs font-semibold mb-1">
+                          <div className="flex items-center space-x-1.5 text-primary font-body text-xs font-semibold mb-1">
                             <HelpCircle size={13} />
                             <span>Interview perspective</span>
                           </div>

@@ -189,11 +189,11 @@ export const MorningBriefCard: React.FC = () => {
           <div>
             <div className="flex items-center justify-between text-text-muted text-[10px] uppercase font-bold">
               <span>Discussion Question</span>
-              <Mic className="w-3.5 h-3.5 text-indigo" />
+              <Mic className="w-3.5 h-3.5 text-primary" />
             </div>
             {brief.coldCallQuestion ? (
               <div className="mt-2 space-y-1">
-                <span className="text-[10px] text-indigo font-bold block">
+                <span className="text-[10px] text-primary font-bold block">
                   {brief.coldCallQuestion.subjectCode} · {brief.coldCallQuestion.conceptName}
                 </span>
                 <p className="font-heading text-xs text-text line-clamp-3 leading-snug">
@@ -208,7 +208,7 @@ export const MorningBriefCard: React.FC = () => {
           </div>
           <Link
             href="/boardroom"
-            className="text-[11px] font-mono text-indigo hover:underline flex items-center gap-1 font-bold pt-1"
+            className="text-[11px] font-mono text-primary hover:underline flex items-center gap-1 font-bold pt-1"
           >
             <span>Practice with AI Tutor</span>
             <ArrowRight className="w-3 h-3" />
@@ -218,10 +218,10 @@ export const MorningBriefCard: React.FC = () => {
 
       {/* Professor Memory Line if relevant */}
       {brief.professorNote && (
-        <div className="p-3 rounded-lg bg-indigo/10 border border-indigo/30 flex items-start gap-2.5 text-xs font-mono text-text">
-          <Brain className="w-4 h-4 text-indigo shrink-0 mt-0.5" />
+        <div className="p-3 rounded-lg bg-primary/10 border border-primary/30 flex items-start gap-2.5 text-xs font-mono text-text">
+          <Brain className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div>
-            <strong className="text-indigo uppercase text-[10px] block font-bold">
+            <strong className="text-primary uppercase text-[10px] block font-bold">
               Faculty Dossier Memory:
             </strong>
             <span className="font-body text-text mt-0.5 block leading-relaxed">

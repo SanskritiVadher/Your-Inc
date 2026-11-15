@@ -17,6 +17,7 @@ const config: Config = {
         border: "var(--color-border)",
         primary: {
           DEFAULT: "var(--color-primary)",
+          hover: "#4A5825",
           light: "#A3B46A",
           dark: "#5B6B2E",
         },
@@ -35,20 +36,31 @@ const config: Config = {
           light: "#A3B46A",
           dark: "#5B6B2E",
         },
+        haldi: {
+          DEFAULT: "var(--color-haldi)",
+          light: "#E2B85C",
+          dark: "#C8962E",
+        },
+        progress: {
+          DEFAULT: "var(--color-progress)",
+          light: "#E2B85C",
+          dark: "#C8962E",
+        },
         cobalt: {
           DEFAULT: "var(--color-primary)",
+          hover: "#4A5825",
           light: "#A3B46A",
           dark: "#5B6B2E",
         },
         turquoise: {
-          DEFAULT: "var(--color-turquoise)",
-          light: "#6CC4C2",
-          dark: "#3A9C9F",
+          DEFAULT: "var(--color-progress)",
+          light: "#E2B85C",
+          dark: "#C8962E",
         },
         marigold: {
-          DEFAULT: "var(--color-marigold)",
-          light: "#F0BE6A",
-          dark: "#E3A33B",
+          DEFAULT: "var(--color-haldi)",
+          light: "#E2B85C",
+          dark: "#C8962E",
         },
         terracotta: {
           DEFAULT: "var(--color-accent)",
@@ -67,9 +79,9 @@ const config: Config = {
           dark: "#5B6B2E",
         },
         turmeric: {
-          DEFAULT: "var(--color-marigold)",
-          light: "#F0BE6A",
-          dark: "#E3A33B",
+          DEFAULT: "var(--color-haldi)",
+          light: "#E2B85C",
+          dark: "#C8962E",
         },
         indigo: {
           DEFAULT: "var(--color-primary)",

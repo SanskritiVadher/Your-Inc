@@ -139,7 +139,7 @@ export const CalendarView: React.FC = () => {
       <div className="p-4 rounded-lg bg-surface border border-border flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo/10 text-indigo">
+            <span className="font-mono text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-primary/10 text-primary">
               Academic Timetable &amp; Schedule
             </span>
             <span className="text-xs font-mono text-text-muted">
@@ -267,7 +267,7 @@ export const CalendarView: React.FC = () => {
                     isDeadline
                       ? "bg-sindoor/10 border-sindoor/30 text-text"
                       : isExam
-                      ? "bg-indigo/10 border-indigo/30 text-text"
+                      ? "bg-primary/10 border-primary/30 text-text"
                       : "bg-bg border-border text-text"
                   }`}
                 >
@@ -277,7 +277,7 @@ export const CalendarView: React.FC = () => {
                         isDeadline
                           ? "bg-sindoor/20 text-sindoor"
                           : isExam
-                          ? "bg-indigo/20 text-indigo"
+                          ? "bg-primary/20 text-primary"
                           : "bg-turmeric/20 text-turmeric"
                       }`}
                     >

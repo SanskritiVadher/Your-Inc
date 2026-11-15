@@ -61,7 +61,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 ? "border-leaf/60 text-text"
                 : t.type === "error"
                 ? "border-sindoor/60 text-text"
-                : "border-indigo/60 text-text"
+                : "border-primary/60 text-text"
             }`}
           >
             <div className="flex items-start space-x-2.5">
@@ -71,7 +71,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 ) : t.type === "error" ? (
                   <AlertCircle size={16} className="text-sindoor" />
                 ) : (
-                  <Info size={16} className="text-indigo" />
+                  <Info size={16} className="text-primary" />
                 )}
               </span>
               <div>

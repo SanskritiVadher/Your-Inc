@@ -157,7 +157,7 @@ export default function SignInPage() {
               <button
                 type="submit"
                 disabled={loading || !email.trim()}
-                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-xs font-medium hover:bg-cobalt/90 transition-colors disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-body text-xs font-medium hover:bg-cobalt/90 transition-colors disabled:opacity-50"
               >
                 <span>{loading ? "Signing in..." : "Continue with email"}</span>
                 <ArrowRight size={12} />

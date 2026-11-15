@@ -461,7 +461,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
       case "APPLICATION":
         return <span className="px-2 py-0.5 rounded bg-turmeric/15 text-turmeric font-mono text-[10px] font-bold">APPLICATION DRILL</span>;
       case "THREE_POINTS":
-        return <span className="px-2 py-0.5 rounded bg-indigo/15 text-indigo font-mono text-[10px] font-bold">3-POINT EXECUTIVE</span>;
+        return <span className="px-2 py-0.5 rounded bg-primary/15 text-primary font-mono text-[10px] font-bold">3-POINT EXECUTIVE</span>;
       case "SPOT_ERROR":
         return <span className="px-2 py-0.5 rounded bg-sindoor/15 text-sindoor font-mono text-[10px] font-bold">SPOT THE ERROR</span>;
       case "FRAMEWORK":
@@ -737,7 +737,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
               </span>
               {getCardTypeBadge(currentCard.type)}
               {currentCard.isKeepFresh && (
-                <span className="font-body text-xs font-medium px-2 py-0.5 rounded-full bg-turquoise/15 text-turquoise border border-turquoise/30 whitespace-nowrap">
+                <span className="font-body text-xs font-medium px-2 py-0.5 rounded-full bg-haldi/15 text-haldi border border-haldi/30 whitespace-nowrap">
                   Keep fresh · {currentCard.semesterName || "Past Semester"}
                 </span>
               )}
@@ -832,7 +832,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
             <div className="pt-4 flex justify-center">
               <button
                 onClick={() => setIsRevealed(true)}
-                className="px-6 py-2.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-sm font-body font-medium hover:bg-cobalt/90 transition-all active:scale-95 shadow-sm flex items-center gap-2 whitespace-nowrap min-w-[150px] justify-center shrink-0"
+                className="px-6 py-2.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-sm font-body font-medium hover:bg-cobalt/90 transition-all active:scale-95 shadow-sm flex items-center gap-2 whitespace-nowrap min-w-[150px] justify-center shrink-0"
               >
                 <span className="whitespace-nowrap">Reveal Answer</span>
                 <span className="px-1.5 py-0.5 rounded bg-white/20 text-xs font-body whitespace-nowrap">Space</span>
@@ -896,11 +896,11 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
                 <button
                   onClick={() => handleGrade(4)}
                   disabled={submitting}
-                  className="p-3 rounded border border-indigo/40 bg-indigo/10 hover:bg-indigo/20 text-indigo text-left transition-colors flex flex-col justify-between gap-1 group whitespace-nowrap shrink-0"
+                  className="p-3 rounded border border-primary/40 bg-primary/10 hover:bg-primary/20 text-primary text-left transition-colors flex flex-col justify-between gap-1 group whitespace-nowrap shrink-0"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-body text-xs font-semibold whitespace-nowrap">Easy</span>
-                    <span className="font-mono text-xs px-1.5 py-0.5 rounded bg-indigo/20 font-bold">4</span>
+                    <span className="font-mono text-xs px-1.5 py-0.5 rounded bg-primary/20 font-bold">4</span>
                   </div>
                   <span className="text-xs font-body text-text-muted group-hover:text-text whitespace-nowrap">
                     Instant Mastery

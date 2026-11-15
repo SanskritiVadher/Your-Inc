@@ -208,7 +208,7 @@ export function TargetRolesView({
 
           <div className="bg-paper-sunken p-4 border border-border space-y-2">
             <div className="flex items-center gap-2 font-mono text-xs font-bold text-text">
-              <Briefcase size={14} className="text-indigo" />
+              <Briefcase size={14} className="text-primary" />
               <span>Vault & Resume Milestones</span>
             </div>
             <p className="text-xs text-text-muted font-body leading-relaxed">

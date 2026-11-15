@@ -102,7 +102,7 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <Clock className="w-4 h-4 text-indigo shrink-0 mt-0.5" />
+            <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
             <div>
               <strong className="text-text block">90-Day Auto-Purge:</strong>
               <span className="text-text-muted text-[11px] leading-snug">

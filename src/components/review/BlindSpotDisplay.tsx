@@ -126,7 +126,7 @@ export function BlindSpotDisplay({
                   <button
                     type="button"
                     onClick={() => onStartFix(item.targetedCardIds)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
                   >
                     <Sparkles size={12} />
                     <span>3-minute fix</span>
@@ -134,7 +134,7 @@ export function BlindSpotDisplay({
                 ) : (
                   <Link
                     href={`/review?conceptId=${item.conceptId}&mode=targeted`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
                   >
                     <Sparkles size={12} />
                     <span>3-minute fix</span>

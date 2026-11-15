@@ -99,28 +99,34 @@ export default function DesignSystemPage() {
       wcag: "Passes AAA (Threshold 7.0:1)",
     },
     {
-      palette: "Night Paper (Dark)",
-      pair: "Text #EDE6D8 on Surface #1C2438",
-      ratio: "11.8:1",
+      palette: "Night Charcoal (Dark)",
+      pair: "Text #EDE6D8 on Surface #24201B",
+      ratio: "13.0:1",
       wcag: "Passes AAA (Threshold 7.0:1)",
     },
     {
-      palette: "Night Paper (Dark)",
-      pair: "Dark Text #141B2D on Mehendi #A3B46A",
-      ratio: "7.59:1",
+      palette: "Night Charcoal (Dark)",
+      pair: "Dark Text #1A1714 on Mehendi #A3B46A",
+      ratio: "7.90:1",
       wcag: "Passes AAA (Threshold 7.0:1)",
     },
     {
-      palette: "Night Paper (Dark)",
-      pair: "Mehendi #A3B46A on Surface #1C2438",
-      ratio: "7.59:1",
+      palette: "Night Charcoal (Dark)",
+      pair: "Mehendi #A3B46A on Surface #24201B",
+      ratio: "7.16:1",
       wcag: "Passes AAA (Threshold 7.0:1)",
     },
     {
-      palette: "Night Paper (Dark)",
-      pair: "Kattha #D08A6E on Surface #1C2438",
-      ratio: "6.16:1",
+      palette: "Night Charcoal (Dark)",
+      pair: "Kattha #D08A6E on Surface #24201B",
+      ratio: "6.41:1",
       wcag: "Passes AA (Threshold 4.5:1)",
+    },
+    {
+      palette: "Night Charcoal (Dark)",
+      pair: "Haldi #E2B85C on Surface #24201B",
+      ratio: "8.76:1",
+      wcag: "Passes AAA (Threshold 7.0:1)",
     },
   ];
 
@@ -166,10 +172,9 @@ export default function DesignSystemPage() {
               { name: "Background", color: "bg-bg", text: "var(--color-bg)", border: true },
               { name: "Surface", color: "bg-surface", text: "var(--color-surface)", border: true },
               { name: "Text", color: "bg-text", text: "var(--color-text)", isLightText: true },
-              { name: "Sindoor (Loss)", color: "bg-sindoor", text: "var(--color-sindoor)", isLightText: true },
-              { name: "Leaf (Gain)", color: "bg-leaf", text: "var(--color-leaf)", isLightText: true },
-              { name: "Turmeric", color: "bg-turmeric", text: "var(--color-turmeric)", isLightText: true },
-              { name: "Indigo", color: "bg-indigo", text: "var(--color-indigo)", isLightText: true },
+              { name: "Mehendi (Primary)", color: "bg-primary", text: "var(--color-primary)", isLightText: true },
+              { name: "Kattha (Accent)", color: "bg-accent", text: "var(--color-accent)", isLightText: true },
+              { name: "Haldi (Progress)", color: "bg-haldi", text: "var(--color-haldi)", isLightText: true },
             ].map((tok) => (
               <div
                 key={tok.name}
@@ -380,7 +385,7 @@ export default function DesignSystemPage() {
               </button>
               <button
                 onClick={() => info("Quarterly Report Ready", "Week 4 performance statement generated")}
-                className="px-4 py-2 rounded-[2px] bg-indigo text-white text-xs font-mono uppercase tracking-wider hover:bg-indigo/90"
+                className="px-4 py-2 rounded-[2px] bg-primary text-white text-xs font-mono uppercase tracking-wider hover:bg-primary/90"
               >
                 Trigger Info Toast
               </button>

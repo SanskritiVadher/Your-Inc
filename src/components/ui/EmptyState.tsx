@@ -46,7 +46,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {actionText && (actionHref ? (
         <Link
           href={actionHref}
-          className="mt-1 inline-flex items-center px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-xs font-medium shadow-2xs hover:bg-cobalt/90 transition-colors whitespace-nowrap"
+          className="mt-1 inline-flex items-center px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-body text-xs font-medium shadow-2xs hover:bg-cobalt/90 transition-colors whitespace-nowrap"
         >
           {actionText}
         </Link>
@@ -54,7 +54,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <button
           onClick={onAction}
           type="button"
-          className="mt-1 inline-flex items-center px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-xs font-medium shadow-2xs hover:bg-cobalt/90 transition-colors whitespace-nowrap"
+          className="mt-1 inline-flex items-center px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-body text-xs font-medium shadow-2xs hover:bg-cobalt/90 transition-colors whitespace-nowrap"
         >
           {actionText}
         </button>

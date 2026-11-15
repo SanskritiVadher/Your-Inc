@@ -31,7 +31,7 @@ export const CourseTimeline: React.FC<CourseTimelineProps> = ({
       case "Strong":
         return <span className="px-2 py-0.5 rounded-[2px] bg-leaf/10 text-leaf border border-leaf/30 font-semibold font-mono text-[10px]">● Strong</span>;
       case "Reviewed":
-        return <span className="px-2 py-0.5 rounded-[2px] bg-indigo/10 text-indigo border border-indigo/30 font-semibold font-mono text-[10px]">● Reviewed</span>;
+        return <span className="px-2 py-0.5 rounded-[2px] bg-primary/10 text-primary border border-primary/30 font-semibold font-mono text-[10px]">● Reviewed</span>;
       case "Depreciating":
         return <span className="px-2 py-0.5 rounded-[2px] bg-sindoor/10 text-sindoor border border-sindoor/30 font-semibold font-mono text-[10px]">▼ Depreciating</span>;
       default:
@@ -110,7 +110,7 @@ export const CourseTimeline: React.FC<CourseTimelineProps> = ({
               {/* One-click "Revise this session" */}
               <Link
                 href={`/review?deckId=${deck.id}`}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium shadow-xs hover:bg-cobalt/90 transition-colors whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium shadow-xs hover:bg-cobalt/90 transition-colors whitespace-nowrap shrink-0"
               >
                 <RotateCcw size={13} />
                 <span className="whitespace-nowrap">Revise Session</span>

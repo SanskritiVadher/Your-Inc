@@ -173,7 +173,7 @@ export function InterviewPrepModal({ isOpen, onClose }: InterviewPrepModalProps)
               <button
                 type="submit"
                 disabled={generating}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
               >
                 <Sparkles size={14} />
                 <span>{generating ? "Gathering from all semesters..." : "Build Prep Pack"}</span>
@@ -197,7 +197,7 @@ export function InterviewPrepModal({ isOpen, onClose }: InterviewPrepModalProps)
               <button
                 type="button"
                 onClick={handleStartMockInterview}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
               >
                 <Play size={13} />
                 <span className="whitespace-nowrap">Start Mock Interview</span>
@@ -263,7 +263,7 @@ export function InterviewPrepModal({ isOpen, onClose }: InterviewPrepModalProps)
                           {top.subjectCode} · {top.semesterName}
                         </span>
                       </div>
-                      <span className="text-turquoise font-medium">Mastery: {top.mastery}%</span>
+                      <span className="text-haldi font-medium">Mastery: {top.mastery}%</span>
                     </div>
                     <p className="text-[11px] text-text-muted leading-relaxed line-clamp-2">
                       {top.definition}
@@ -368,7 +368,7 @@ export function InterviewPrepModal({ isOpen, onClose }: InterviewPrepModalProps)
                 <button
                   type="button"
                   onClick={handleStartMockInterview}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap"
                 >
                   <Play size={13} />
                   <span>Start Mock Interview</span>

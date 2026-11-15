@@ -24,7 +24,7 @@ export const PlannerContainerClient: React.FC = () => {
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/80 pb-4">
         <div>
-          <span className="font-body text-xs text-indigo font-semibold">
+          <span className="font-body text-xs text-primary font-semibold">
             Schedule &amp; Deadlines
           </span>
           <h1 className="font-heading text-3xl sm:text-4xl text-text font-normal mt-0.5">

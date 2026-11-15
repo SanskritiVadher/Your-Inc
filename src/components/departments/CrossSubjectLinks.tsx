@@ -142,7 +142,7 @@ export const CrossSubjectLinks: React.FC<{ currentSubjectId?: string }> = ({ cur
                     <button
                       type="button"
                       onClick={() => handleApproveSuggestion(sug)}
-                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-medium hover:bg-cobalt/90"
+                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-medium hover:bg-cobalt/90"
                     >
                       <Check size={12} />
                       <span>Confirm link</span>

@@ -31,7 +31,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = "" }
       {/* Auto mode indicator */}
       {themeMode === "auto" && (
         <span
-          className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-turquoise"
+          className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-primary"
           title="Auto theme (system)"
         />
       )}

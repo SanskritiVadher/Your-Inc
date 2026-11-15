@@ -370,7 +370,7 @@ export const GroupProjectWorkspace: React.FC = () => {
             onClick={() => setShowFileModal(true)}
             className="px-3.5 py-1.5 rounded border border-border hover:border-turmeric bg-surface text-text font-mono text-xs flex items-center gap-1.5"
           >
-            <LinkIcon className="w-3.5 h-3.5 text-indigo" />
+            <LinkIcon className="w-3.5 h-3.5 text-primary" />
             <span>Add Cloud Link</span>
           </button>
         </div>
@@ -387,7 +387,7 @@ export const GroupProjectWorkspace: React.FC = () => {
       {activeProject.fileLinks && activeProject.fileLinks.length > 0 && (
         <div className="p-3.5 rounded-lg bg-bg border border-border flex items-center justify-between text-xs font-mono">
           <div className="flex items-center gap-2">
-            <FolderOpen className="w-4 h-4 text-indigo" />
+            <FolderOpen className="w-4 h-4 text-primary" />
             <span className="font-bold text-text">Project Cloud Files (Drive / OneDrive):</span>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -397,7 +397,7 @@ export const GroupProjectWorkspace: React.FC = () => {
                 href={fl.url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-indigo hover:underline"
+                className="inline-flex items-center gap-1 text-primary hover:underline"
               >
                 <span>{fl.name}</span>
                 <ExternalLink className="w-3 h-3" />
@@ -845,7 +845,7 @@ export const GroupProjectWorkspace: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-indigo text-white font-bold rounded hover:bg-indigo/90"
+                  className="px-4 py-1.5 bg-primary text-white font-bold rounded hover:bg-primary/90"
                 >
                   Save Link
                 </button>

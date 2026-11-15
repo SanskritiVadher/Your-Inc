@@ -78,7 +78,7 @@ export function DepartmentsClient({ terms, initialSubjects }: DepartmentsClientP
 
           <Link
             href="/onboarding"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#1A1714] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
           >
             <Plus size={14} />
             <span className="whitespace-nowrap">Add Subject</span>
@@ -169,7 +169,7 @@ export function DepartmentsClient({ terms, initialSubjects }: DepartmentsClientP
               onClick={() => setSelectedTermId("all")}
               className={`px-2.5 py-1 rounded text-xs font-body transition-colors whitespace-nowrap ${
                 selectedTermId === "all"
-                  ? "bg-cobalt text-white dark:text-[#141B2D] font-medium"
+                  ? "bg-cobalt text-white dark:text-[#1A1714] font-medium"
                   : "bg-surface text-text-muted hover:text-text border border-border/50"
               }`}
             >
@@ -184,7 +184,7 @@ export function DepartmentsClient({ terms, initialSubjects }: DepartmentsClientP
                   onClick={() => setSelectedTermId(t.id)}
                   className={`px-2.5 py-1 rounded text-xs font-body transition-colors whitespace-nowrap flex items-center gap-1 ${
                     active
-                      ? "bg-cobalt text-white dark:text-[#141B2D] font-medium"
+                      ? "bg-cobalt text-white dark:text-[#1A1714] font-medium"
                       : "bg-surface text-text-muted hover:text-text border border-border/50"
                   }`}
                 >

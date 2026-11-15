@@ -115,7 +115,7 @@ export default async function TodayPage() {
             <div>
               <Link
                 href="/decks"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded bg-cobalt text-white dark:text-[#1A1714] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
               >
                 <Upload size={16} />
                 <span>Upload your first class deck</span>
@@ -130,7 +130,7 @@ export default async function TodayPage() {
           <div>
             <Link
               href="/review"
-              className="inline-flex items-center justify-center px-8 py-3 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+              className="inline-flex items-center justify-center px-8 py-3 rounded bg-cobalt text-white dark:text-[#1A1714] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
             >
               Begin
             </Link>

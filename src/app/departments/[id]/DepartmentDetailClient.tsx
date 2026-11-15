@@ -123,7 +123,7 @@ export const DepartmentDetailClient: React.FC<{ initialSubject: SubjectWithRelat
 
         {/* Hand-Drawn Ring for Mastery & Action */}
         <div className="flex items-center space-x-4 shrink-0">
-          {/* Hand-drawn Turquoise Mastery Ring */}
+          {/* Hand-drawn Haldi Mastery Ring */}
           <div className="flex items-center space-x-3 deckle-card px-3.5 py-2 rounded-md">
             <div className="relative w-11 h-11 flex items-center justify-center">
               <svg className="w-11 h-11 -rotate-90" viewBox="0 0 36 36">
@@ -135,7 +135,7 @@ export const DepartmentDetailClient: React.FC<{ initialSubject: SubjectWithRelat
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
                 <path
-                  className="text-turquoise"
+                  className="text-haldi"
                   strokeDasharray={`${masteryPercent}, 100`}
                   strokeLinecap="round"
                   strokeWidth="3.2"
@@ -174,7 +174,7 @@ export const DepartmentDetailClient: React.FC<{ initialSubject: SubjectWithRelat
       <div className="flex justify-between items-center py-1">
         <Link
           href={`/review?subjectId=${subject.id}`}
-          className="stamp-press inline-flex items-center space-x-2.5 px-6 py-3 rounded-md bg-[#1F4E8C] dark:bg-[#7FA6E0] text-[#F7F1E5] dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all whitespace-nowrap shrink-0"
+          className="stamp-press inline-flex items-center space-x-2.5 px-6 py-3 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-[#F7F1E5] dark:text-[#1A1714] text-sm font-medium shadow hover:opacity-95 transition-all whitespace-nowrap shrink-0"
         >
           <CheckCircle2 size={16} />
           <span className="whitespace-nowrap">Practice this subject ({totalCardsCount} cards)</span>

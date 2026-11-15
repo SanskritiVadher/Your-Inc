@@ -139,7 +139,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
         </div>
 
         {/* 3 handwritten lines of evening closure */}
-        <div className="deckle-card rounded-md p-5 w-full text-left space-y-2 bg-[#FCF8F0]/70 dark:bg-[#1C2438]/70 border border-border/50">
+        <div className="deckle-card rounded-md p-5 w-full text-left space-y-2 bg-[#FCF8F0]/70 dark:bg-[#24201B]/70 border border-border/50">
           <p className="font-handwriting text-sm text-text-muted">Today in three thoughts:</p>
           <p className="text-sm font-handwriting text-text">1. Reviewed {cards.length || "all"} cards calmly without rush.</p>
           <p className="text-sm font-handwriting text-text">2. Core concepts are settled for tomorrow.</p>
@@ -149,7 +149,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
         <div className="pt-2">
           <Link
             href="/"
-            className="stamp-press inline-flex items-center space-x-2 px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all"
+            className="stamp-press inline-flex items-center space-x-2 px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#1A1714] text-sm font-medium shadow hover:opacity-95 transition-all"
           >
             <span>Close journal</span>
           </Link>
@@ -189,7 +189,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
       {/* Thin block-print progress fill border */}
       <div className="w-full h-1 bg-border/20 rounded-full overflow-hidden">
         <div
-          className="h-full bg-turquoise transition-all duration-300 ease-out"
+          className="h-full bg-haldi transition-all duration-300 ease-out"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -231,7 +231,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
               <p className="text-base sm:text-lg text-text leading-relaxed font-body">
                 {currentCard?.back}
               </p>
-              <p className="font-handwriting text-xs text-turquoise pt-1">
+              <p className="font-handwriting text-xs text-haldi pt-1">
                 Nice — concept settled.
               </p>
             </div>
@@ -252,7 +252,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
           <div className="text-center">
             <button
               onClick={() => setIsRevealed(true)}
-              className="stamp-press px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all w-full sm:w-auto"
+              className="stamp-press px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#1A1714] text-sm font-medium shadow hover:opacity-95 transition-all w-full sm:w-auto"
             >
               Reveal answer
             </button>
@@ -277,7 +277,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
               </button>
               <button
                 onClick={() => handleNext(3)}
-                className="stamp-press p-3 rounded-md border border-border bg-surface hover:border-turquoise/40 text-xs font-body transition-colors text-center"
+                className="stamp-press p-3 rounded-md border border-border bg-surface hover:border-haldi/40 text-xs font-body transition-colors text-center"
               >
                 <div className="text-text font-medium">Good</div>
                 <div className="text-[10px] text-text-muted mt-0.5">3</div>

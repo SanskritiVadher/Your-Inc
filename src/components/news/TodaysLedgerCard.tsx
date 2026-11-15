@@ -175,7 +175,7 @@ export function TodaysLedgerCard() {
                 {/* Meta row */}
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-indigo/10 text-indigo border border-indigo/20">
+                    <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
                       {item.subjectCode || "BUSINESS"}
                     </span>
                     <span className="text-xs text-text-muted font-body">
@@ -236,7 +236,7 @@ export function TodaysLedgerCard() {
                       </div>
 
                       <div className="p-2.5 rounded bg-surface/70 border border-border/40">
-                        <div className="flex items-center space-x-1.5 text-indigo font-body text-xs font-semibold mb-1">
+                        <div className="flex items-center space-x-1.5 text-primary font-body text-xs font-semibold mb-1">
                           <HelpCircle size={12} />
                           <span>Interview perspective</span>
                         </div>
