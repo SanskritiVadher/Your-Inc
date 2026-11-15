@@ -15,13 +15,42 @@ export default async function DepartmentsPage() {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
       },
       subjects: {
-        include: { professor: true },
+        include: {
+          professor: true,
+          decks: { select: { id: true } },
+          concepts: {
+            select: {
+              value: true,
+              cards: { select: { id: true } },
+            },
+          },
+        },
         orderBy: { createdAt: "asc" },
       },
     },
   });
 
-  const subjects = user?.subjects || [];
+  const subjects = (user?.subjects || []).map((s) => {
+    const deckCount = s.decks?.length || 0;
+    const cardsCount = s.concepts?.reduce((acc, c) => acc + (c.cards?.length || 0), 0) || 0;
+    const mastery = s.concepts?.length
+      ? Math.round(s.concepts.reduce((acc, c) => acc + c.value, 0) / s.concepts.length)
+      : 0;
+
+    return {
+      id: s.id,
+      name: s.name,
+      code: s.code,
+      credits: s.credits,
+      sharePrice: s.sharePrice,
+      termId: s.termId,
+      deckCount,
+      cardsCount,
+      mastery,
+      professor: s.professor ? { name: s.professor.name } : null,
+    };
+  });
+
   const terms = (user?.terms || []).map((t) => ({
     id: t.id,
     name: t.name,

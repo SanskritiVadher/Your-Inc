@@ -43,12 +43,32 @@ export default async function TodayPage() {
   // Estimated time: ~8 minutes default calm session
   const estimatedMin = dueCardsCount === 0 ? 0 : Math.min(15, Math.max(5, Math.round(dueCardsCount * 0.6)));
 
-  // User's subjects with deck and concept counts for mastery calculation
+  // Current semester (or most recent) for user
+  let currentTerm = await prisma.term.findFirst({
+    where: { userId: user.id, isCurrent: true },
+    orderBy: [{ order: "desc" }, { createdAt: "desc" }],
+  });
+  if (!currentTerm) {
+    currentTerm = await prisma.term.findFirst({
+      where: { userId: user.id },
+      orderBy: [{ order: "desc" }, { createdAt: "desc" }],
+    });
+  }
+
+  // User's subjects for current semester with deck and concept counts for mastery calculation
   const subjects = await prisma.subject.findMany({
-    where: { userId: user.id },
+    where: {
+      userId: user.id,
+      ...(currentTerm ? { termId: currentTerm.id } : {}),
+    },
     include: {
       decks: { select: { id: true } },
-      concepts: { select: { value: true } },
+      concepts: {
+        select: {
+          value: true,
+          cards: { select: { id: true } },
+        },
+      },
     },
     orderBy: { createdAt: "asc" },
   });
@@ -217,6 +237,7 @@ export default async function TodayPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {subjects.map((s) => {
                 const sDeckCount = s.decks.length;
+                const totalCards = s.concepts.reduce((sum, c) => sum + (c.cards?.length || 0), 0);
                 const sMastery = s.concepts.length > 0
                   ? Math.round(s.concepts.reduce((sum, c) => sum + c.value, 0) / s.concepts.length)
                   : 0;
@@ -225,20 +246,31 @@ export default async function TodayPage() {
                   <Link
                     key={s.id}
                     href={`/departments/${s.id}`}
-                    className="p-3.5 rounded-lg border border-border/70 bg-surface hover:border-primary/50 hover:bg-surface/90 transition-all shadow-2xs group flex flex-col justify-between"
+                    className="p-3.5 rounded-lg border border-text/10 bg-surface hover:border-primary/40 hover:bg-surface/90 transition-all shadow-2xs group flex flex-col justify-between cursor-pointer"
                   >
                     <div>
                       <div className="flex items-center justify-between text-[11px] text-text-muted mb-1 font-body">
-                        <span className="font-medium text-primary uppercase tracking-wider">{s.code}</span>
-                        <span className="text-text-muted">{sDeckCount} {sDeckCount === 1 ? "deck" : "decks"}</span>
+                        {sDeckCount > 0 ? (
+                          <span className="text-text-muted">{sDeckCount} {sDeckCount === 1 ? "deck" : "decks"}</span>
+                        ) : (
+                          <span className="text-text-muted">0 decks</span>
+                        )}
                       </div>
                       <h3 className="font-body text-sm font-medium text-text group-hover:text-primary transition-colors line-clamp-1">
                         {s.name}
                       </h3>
                     </div>
-                    <div className="mt-3 pt-2 border-t border-border/30 flex items-center justify-between text-xs font-body text-text-muted">
-                      <span>Mastery</span>
-                      <span className="font-medium text-haldi">{sMastery}%</span>
+                    <div className="mt-3 pt-2 border-t border-text/10 flex items-center justify-between text-xs font-body text-text-muted">
+                      {sDeckCount === 0 ? (
+                        <span className="text-primary font-medium">No decks yet · Upload</span>
+                      ) : totalCards > 0 ? (
+                        <>
+                          <span>Mastery</span>
+                          <span className="font-medium text-haldi">{sMastery}%</span>
+                        </>
+                      ) : (
+                        <span>{sDeckCount} {sDeckCount === 1 ? "deck" : "decks"} · 0 cards</span>
+                      )}
                     </div>
                   </Link>
                 );
