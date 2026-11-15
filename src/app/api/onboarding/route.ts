@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     let clerkUserId: string | null = null;
 
     try {
-      const clerkAuth = auth();
+      const clerkAuth = await auth();
       if (clerkAuth?.userId) {
         clerkUserId = clerkAuth.userId;
       }

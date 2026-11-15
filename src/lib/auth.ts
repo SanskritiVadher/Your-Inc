@@ -14,7 +14,7 @@ export async function getCurrentUser(options?: { allowUnonboarded?: boolean }) {
 
   // 1. Clerk server auth
   try {
-    const clerkAuth = auth();
+    const clerkAuth = await auth();
     if (clerkAuth?.userId) {
       clerkUserId = clerkAuth.userId;
     }
@@ -76,7 +76,7 @@ export async function getApiCurrentUser(options?: { allowUnonboarded?: boolean }
   let clerkUserId: string | null = null;
 
   try {
-    const clerkAuth = auth();
+    const clerkAuth = await auth();
     if (clerkAuth?.userId) {
       clerkUserId = clerkAuth.userId;
     }

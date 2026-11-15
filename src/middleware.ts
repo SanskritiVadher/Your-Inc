@@ -7,9 +7,9 @@ const isPublicRoute = createRouteMatcher([
   "/api/auth(.*)",
 ]);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
-    const { userId } = auth();
+    const { userId } = await auth();
     const authCookie = req.cookies.get("auth_user_id")?.value;
     const clerkCookie = req.cookies.get("clerk_user_id")?.value;
 
