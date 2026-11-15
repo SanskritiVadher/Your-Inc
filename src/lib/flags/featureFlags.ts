@@ -1,13 +1,20 @@
 import { prisma } from "@/lib/prisma";
 
 export const DEFAULT_FEATURE_FLAGS = [
-  { key: "boardroom_ai", description: "Boardroom Socratic Chat & Cold Call Drills", enabled: true },
-  { key: "location_features", description: "Geofenced Classroom Attendance & Focus Map", enabled: true },
-  { key: "field_cases", description: "OpenStreetMap Real-World Micro-Cases", enabled: true },
-  { key: "group_projects", description: "Collaborative Project Workspaces & Tasks", enabled: true },
-  { key: "mock_interviews", description: "Executive Placement Mock Interview Drills", enabled: true },
-  { key: "public_proof", description: "Public Proof Profile Pages (/u/[username])", enabled: true },
-  { key: "shared_deck_library", description: "Cohort Shared Slide Decks", enabled: true },
+  { key: "boardroom_ai", description: "Ask (AI Tutor)", enabled: true },
+  { key: "location_features", description: "Campus Map & Focus", enabled: false },
+  { key: "field_cases", description: "OpenStreetMap Real-World Micro-Cases", enabled: false },
+  { key: "cohort", description: "Cohort & Class Groups", enabled: false },
+  { key: "career", description: "Career Vault & Mock Interviews", enabled: false },
+  { key: "news", description: "Daily News & Current Affairs", enabled: false },
+  { key: "blind_spots", description: "Blind Spots Calibration", enabled: false },
+  { key: "formula_sheet", description: "Formula Sheet & Drills", enabled: false },
+  { key: "framework_finder", description: "Framework Finder", enabled: false },
+  { key: "sounds", description: "Page Turn Sound Effects", enabled: false },
+  { key: "solar_widget", description: "Solar Widget", enabled: false },
+  { key: "dev_time_machine", description: "Dev Time Machine", enabled: false },
+  { key: "shared_deck_library", description: "Cohort Shared Slide Decks", enabled: false },
+  { key: "public_proof", description: "Public Proof Profile Pages", enabled: false },
 ];
 
 /**
@@ -22,7 +29,9 @@ export async function ensureDefaultFeatureFlags() {
         description: flag.description,
         enabled: flag.enabled,
       },
-      update: {},
+      update: {
+        enabled: flag.enabled,
+      },
     });
   }
 }
@@ -31,11 +40,12 @@ export async function ensureDefaultFeatureFlags() {
  * Checks if a specific feature flag is currently active.
  */
 export async function isFeatureEnabled(key: string): Promise<boolean> {
+  const defaultFlag = DEFAULT_FEATURE_FLAGS.find((f) => f.key === key);
   const flag = await prisma.featureFlag.findUnique({
     where: { key },
   });
 
-  if (!flag) return true; // default open if unconfigured
+  if (!flag) return defaultFlag ? defaultFlag.enabled : false;
   return flag.enabled;
 }
 

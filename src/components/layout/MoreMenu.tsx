@@ -61,24 +61,24 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({
       label: "Library",
       href: "/library",
       icon: BookMarked,
-      desc: "Decks, notes & projects across all semesters",
+      desc: "Decks & notes across all semesters",
       show: true,
     },
-    // Formula sheet
+    // Formula sheet (hidden from navigation per feature flags)
     {
       label: "Formula sheet",
       href: "/library?tab=formulas",
       icon: Calculator,
-      desc: "Key formulas, variable meanings & practice drills",
-      show: true,
+      desc: "Key formulas & variable meanings",
+      show: false,
     },
-    // News is accessible to everyone in More
+    // News (hidden from navigation per feature flags)
     {
       label: "Daily News",
       href: "/news",
       icon: Newspaper,
-      desc: "Daily business news & current affairs",
-      show: true,
+      desc: "Daily business news",
+      show: false,
     },
     // Weekly Report
     {
@@ -94,31 +94,31 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({
       href: "/memory",
       icon: Brain,
       desc: "Faculty notes, patterns & key context",
-      show: true,
+      show: false,
     },
-    // Career (appears after student adds a target role or placement date)
+    // Career (hidden from navigation per feature flags)
     {
       label: "Career Proof",
       href: "/career",
       icon: Briefcase,
       desc: "Target roles & verified portfolio",
-      show: hasCareer,
+      show: false,
     },
-    // Map (hidden until location is turned on in Settings)
+    // Map (hidden from navigation per feature flags)
     {
       label: "Campus Focus Map",
       href: "/map",
       icon: MapPin,
-      desc: "Campus study zones & field cases",
-      show: locationEnabled,
+      desc: "Campus study zones",
+      show: false,
     },
-    // Cohort (appears only after joining or creating one)
+    // Cohort (hidden from navigation per feature flags)
     {
       label: "Class Group",
       href: "/cohort",
       icon: GraduationCap,
       desc: "Classmates, shared decks & schedule",
-      show: hasCohort,
+      show: false,
     },
     // Admin (admin users only)
     {
@@ -126,7 +126,7 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({
       href: "/admin",
       icon: ShieldAlert,
       desc: "System metrics, users & activity",
-      show: isAdmin,
+      show: false,
     },
   ];
 

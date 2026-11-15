@@ -276,8 +276,8 @@ export default async function TodayPage() {
           </div>
         )}
 
-        {/* Dev Tools: hidden unless NODE_ENV=development AND user is admin */}
-        <DateOverridePill isAdmin={user.isAdmin || false} />
+        {/* Dev Tools: hidden */}
+        <DateOverridePill isAdmin={false} />
       </div>
     </AppShell>
   );

@@ -10,6 +10,7 @@ import {
   CalendarCheck2,
   MessageSquare,
   Command,
+  Upload,
 } from "lucide-react";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { useTheme } from "../theme/ThemeProvider";
@@ -72,13 +73,9 @@ export const AppShell: React.FC<AppShellProps> = ({
   const primaryNavItems = [
     { label: "Today", href: "/", icon: CalendarDays },
     { label: "Subjects", href: "/departments", icon: Building2 },
-    { label: "Study", href: "/review", icon: RotateCcw },
-    ...(hasUploadedDeck
-      ? [
-          { label: "Plan", href: "/planner", icon: CalendarCheck2 },
-          { label: "Ask", href: "/boardroom", icon: MessageSquare },
-        ]
-      : []),
+    { label: "Upload deck", href: "/decks", icon: Upload },
+    { label: "Review", href: "/review", icon: RotateCcw },
+    { label: "Ask", href: "/boardroom", icon: MessageSquare },
   ];
 
   // Plain language deadline status

@@ -186,45 +186,12 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: "nav-boardroom",
-      title: "AI Tutor & Practice",
-      subtitle: "Practice with AI tutor and classmates",
+      title: "Ask (AI Tutor)",
+      subtitle: "Practice with AI tutor and explore concepts",
       icon: <Users size={18} className="text-turmeric" />,
       category: "Navigation",
       action: () => {
         router.push("/boardroom");
-        setIsOpen(false);
-      },
-    },
-    {
-      id: "nav-career",
-      title: "Career Vault & Mock Interviews",
-      subtitle: "Turn concept assets into interview-ready competencies",
-      icon: <Briefcase size={18} className="text-indigo" />,
-      category: "Navigation",
-      action: () => {
-        router.push("/career");
-        setIsOpen(false);
-      },
-    },
-    {
-      id: "nav-memory",
-      title: "What You Inc. Knows (Memory Vault)",
-      subtitle: "Review durable professor habits, answering rules & pitfalls",
-      icon: <Brain size={18} className="text-turmeric" />,
-      category: "Navigation",
-      action: () => {
-        router.push("/memory");
-        setIsOpen(false);
-      },
-    },
-    {
-      id: "nav-map",
-      title: "Campus Study Map",
-      subtitle: "Study focus zones and localized field cases",
-      icon: <MapPin size={18} className="text-leaf" />,
-      category: "Navigation",
-      action: () => {
-        router.push("/map");
         setIsOpen(false);
       },
     },
