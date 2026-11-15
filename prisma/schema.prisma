@@ -1,0 +1,1419 @@
+// ==============================================================================
+// You Inc. - Bahi-Khata LMS for MBA Students
+// Complete Prisma Schema with Neon Postgres + pgvector
+// ==============================================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [pgvector(map: "vector")]
+}
+
+// ------------------------------------------------------------------------------
+// 1. User (Student as CEO of "You Inc.")
+// ------------------------------------------------------------------------------
+model User {
+  id                      String    @id @default(cuid())
+  clerkId                 String    @unique
+  email                   String    @unique
+  name                    String
+  companyName             String    @default("You Inc.")
+  program                 String? // e.g. MBA Full-Time, Executive MBA
+  specialization          String? // e.g. Finance & Corporate Strategy
+  currentTerm             String? // e.g. Term 2 - Winter 2026
+  creditRating            String    @default("AAA") // AAA, AA, A, BBB, BB, B, CCC, D
+  sharePrice              Float     @default(0.0) // Aggregate market share price
+  totalValuation          Float     @default(0.0) // Total book value of learned assets
+  dailyNewCardLimit       Int       @default(20) // Capped new cards per day
+  dailyAiBudgetCost       Float     @default(0.50) // Daily AI budget allowance in USD
+  simulatedDateOffsetDays Int       @default(0) // Dev tool: simulated days offset for decay testing
+  onboardingCompleted     Boolean   @default(false)
+  isAdmin                 Boolean   @default(false)
+  firstReviewCompletedAt  DateTime?
+  reviewsCount            Int       @default(0)
+  username                String?   @unique
+  placementStartDate      DateTime?
+  publicProofEnabled      Boolean   @default(false)
+  proofSettings           Json?
+  blindSpotsEnabled       Boolean   @default(true) // Can be turned off in Settings
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  terms                Term[]
+  subjects             Subject[]
+  notes                Note[]
+  reviews              Review[]
+  transactions         Transaction[]
+  assignments          Assignment[]
+  tasks                Task[]
+  studySessions        StudySession[]
+  locations            Location[]
+  memories             MemoryEntry[]
+  skills               Skill[]
+  targetRoles          TargetRole[]
+  projects             Project[]
+  interviews           MockInterview[]
+  examPlans            ExamPlan[]
+  creditAudits         CreditRatingAudit[]
+  bridgeLoans          BridgeLoan[]
+  quarterlyReports     QuarterlyReport[]
+  squadMembers         SquadMember[]
+  cohortMembers        CohortMember[]
+  groupMembers         GroupMember[]
+  aiCalls              AiCall[]
+  timetableEntries     TimetableEntry[]
+  notifications        Notification[]
+  notificationSettings NotificationSettings?
+  morningBriefs        MorningBrief[]
+  meetingNotes         MeetingNote[]
+  locationPermission   LocationPermission?
+  fieldCases           FieldCase[]
+  feedbacks            Feedback[]
+  sharedCohortDecks    SharedCohortDeck[]
+  hiddenCohortItems    HiddenCohortItem[]
+  savedNews            SavedNewsItem[]
+  newsQuizzes          NewsQuiz[]
+  topicConfidences     TopicConfidence[]
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+// ------------------------------------------------------------------------------
+// 2. Term (Academic Quarter/Trimester)
+// ------------------------------------------------------------------------------
+model Term {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String // e.g. "Semester 1", "Semester 2"
+  startDate  DateTime?
+  endDate    DateTime?
+  isCurrent  Boolean   @default(true)
+  order      Int       @default(0)
+  isArchived Boolean   @default(false)
+  wrapUp     Json? // 1-page wrap-up { closedAt, subjects, strongestTopics, projects, topDecks }
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // Cascade explanation: User deletion cascades to delete term records because terms are strictly tied to a student's degree timeline.
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjects Subject[]
+  projects Project[]
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 3. Professor (Course Instructor)
+// ------------------------------------------------------------------------------
+model Professor {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  department  String?
+  officeHours String?
+  bio         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subjects Subject[]
+
+  @@index([name])
+}
+
+// ------------------------------------------------------------------------------
+// 4. Subject (The "Department" of You Inc.)
+// ------------------------------------------------------------------------------
+model Subject {
+  id                   String    @id @default(cuid())
+  userId               String
+  termId               String?
+  professorId          String?
+  name                 String // e.g. "Corporate Finance"
+  code                 String // e.g. "FIN601"
+  credits              Int       @default(3)
+  sharePrice           Float     @default(0.0) // Derived solely from recall accuracy + assignment outcomes
+  ipoCelebrated        Boolean   @default(false) // One-time IPO event celebration when crossing 80
+  ipoDate              DateTime?
+  color                String    @default("#B3261E")
+  keepFresh            Boolean   @default(true) // Student can turn "Keep fresh" mode off per subject
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  // Cascade explanation: User deletion cascades to delete subjects because departments belong to that student's company ledger.
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Term deletion sets null so subjects can be reassigned or preserved across academic reshuffles.
+  term      Term?      @relation(fields: [termId], references: [id], onDelete: SetNull)
+  // Cascade explanation: Professor deletion sets null so instructor departures never wipe academic department history.
+  professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
+
+  evaluationComponents EvaluationComponent[]
+  decks                Deck[]
+  concepts             Concept[]
+  notes                Note[]
+  transactions         Transaction[]
+  questions            Question[]
+  assignments          Assignment[]
+  groupProjects        GroupProject[]
+  projects             Project[]
+  tasks                Task[]
+  studySessions        StudySession[]
+  memories             MemoryEntry[]
+  interviews           MockInterview[]
+  examPlans            ExamPlan[]
+  timetableEntries     TimetableEntry[]
+  formulas             Formula[]
+
+  @@index([userId])
+  @@index([termId])
+  @@index([code])
+}
+
+// ------------------------------------------------------------------------------
+// 5. EvaluationComponent (Grading / Assessment Weights)
+// ------------------------------------------------------------------------------
+model EvaluationComponent {
+  id            String    @id @default(cuid())
+  subjectId     String
+  name          String // e.g. "Midterm Case Analysis", "Class Participation"
+  weight        Float // percentage, e.g. 30.0 for 30%
+  achievedScore Float?
+  maxScore      Float     @default(100.0)
+  deadline      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because syllabus grading breakdown is intrinsically bound to that specific subject.
+  subject     Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  assignments Assignment[]
+
+  @@index([subjectId])
+}
+
+// ------------------------------------------------------------------------------
+// 6. Deck (Uploaded Class Session Slides)
+// ------------------------------------------------------------------------------
+model Deck {
+  id                 String   @id @default(cuid())
+  subjectId          String
+  userId             String?
+  title              String // e.g. "Session 4: DCF Valuation & WACC"
+  sessionNumber      Int?
+  fileUrl            String?
+  fileHash           String? // SHA-256 hash to prevent duplicate uploads
+  summary            String?  @db.Text // Session summary max 150 words
+  status             String   @default("ready") // parsing | understanding | generating | ready
+  progress           Int      @default(100) // 0-100% progress
+  isSharedWithCohort Boolean  @default(false) // Privacy toggle
+  sessionStatus      String   @default("Untouched") // Untouched | Reviewed | Depreciating | Strong
+  slideCount         Int      @default(0)
+  processed          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because course slide decks belong exclusively to that subject curriculum.
+  subject           Subject            @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  slides            Slide[]
+  sharedCohortDecks SharedCohortDeck[]
+  revisionSheet     RevisionSheet?
+  formulas          Formula[]
+
+  @@index([subjectId])
+  @@index([fileHash])
+}
+
+// ------------------------------------------------------------------------------
+// 7. Slide (Individual Deck Slide with Content & Embeddings)
+// ------------------------------------------------------------------------------
+model Slide {
+  id                 String                       @id @default(cuid())
+  deckId             String
+  number             Int
+  text               String                       @db.Text
+  notes              String?                      @db.Text
+  imageUrl           String?
+  hasGap             Boolean                      @default(false)
+  gapReason          String?
+  studentExplanation String?                      @db.Text
+  personalNotes      String?                      @db.Text
+  embedding          Unsupported("vector(1536)")?
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @updatedAt
+
+  // Cascade explanation: Deck deletion cascades because individual slide pages have no identity without their parent presentation deck.
+  deck      Deck       @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  cards     Card[]
+  questions Question[]
+  notesRef  Note[]
+
+  @@index([deckId])
+  @@index([number])
+}
+
+// ------------------------------------------------------------------------------
+// 8. Concept (The "Asset" under each Department)
+// ------------------------------------------------------------------------------
+model Concept {
+  id             String                       @id @default(cuid())
+  subjectId      String
+  name           String // e.g. "Discounted Cash Flow"
+  definition     String                       @db.Text
+  embedding      Unsupported("vector(1536)")?
+  value          Float                        @default(0.0) // Asset mastery value
+  stability      Float                        @default(0.0) // FSRS stability in days
+  difficulty     Float                        @default(0.0) // FSRS difficulty (0-10)
+  reps           Int                          @default(0)
+  lapses         Int                          @default(0)
+  lastReviewedAt DateTime?
+  nextReviewAt   DateTime?
+  createdAt      DateTime                     @default(now())
+  updatedAt      DateTime                     @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because concept assets are owned directly by their academic department.
+  subject        Subject         @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  cards          Card[]
+  incomingLinks  ConceptLink[]   @relation("ConceptTo")
+  outgoingLinks  ConceptLink[]   @relation("ConceptFrom")
+  notes          Note[]
+  transactions   Transaction[]
+  skillConcepts  SkillConcept[]
+  mockInterviews MockInterview[]
+  fieldCases     FieldCase[]
+  confidences    TopicConfidence[]
+
+  @@index([subjectId])
+  @@index([nextReviewAt])
+}
+
+// ------------------------------------------------------------------------------
+// 9. ConceptLink (Graph Edges Connecting Knowledge Assets)
+// ------------------------------------------------------------------------------
+model ConceptLink {
+  id            String   @id @default(cuid())
+  fromConceptId String
+  toConceptId   String
+  reason        String // Explanation of semantic / practical relationship
+  confirmed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Cascade explanation: Deleting either concept cascades to remove the link because a knowledge graph edge cannot exist with a missing vertex.
+  fromConcept Concept @relation("ConceptFrom", fields: [fromConceptId], references: [id], onDelete: Cascade)
+  toConcept   Concept @relation("ConceptTo", fields: [toConceptId], references: [id], onDelete: Cascade)
+
+  @@index([fromConceptId])
+  @@index([toConceptId])
+}
+
+// ------------------------------------------------------------------------------
+// 10. Note (Student Field Notes & Observations)
+// ------------------------------------------------------------------------------
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  subjectId String
+  slideId   String?
+  conceptId String?
+  title     String
+  content   String   @db.Text
+  tags      String? // Comma-separated tags or keywords
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Cascade explanation: User deletion cascades because personal student notes belong to that user account.
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion cascades because class notes are organized inside the department.
+  subject Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Slide deletion sets null so note content survives even if the slide is removed.
+  slide   Slide?   @relation(fields: [slideId], references: [id], onDelete: SetNull)
+  // Cascade explanation: Concept deletion sets null to preserve student notes even if a concept is deleted.
+  concept Concept? @relation(fields: [conceptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([subjectId])
+}
+
+// ------------------------------------------------------------------------------
+// 11. Card (FSRS Spaced Repetition Flashcards)
+// ------------------------------------------------------------------------------
+enum CardType {
+  DEFINITION
+  APPLICATION
+  SPOT_ERROR
+  FRAMEWORK
+  THREE_POINTS
+}
+
+model Card {
+  id               String    @id @default(cuid())
+  conceptId        String
+  sourceSlideId    String?
+  type             CardType  @default(DEFINITION)
+  front            String    @db.Text
+  back             String    @db.Text
+  errorExplanation String?   @db.Text
+  stability        Float     @default(0.0) // FSRS stability in days
+  difficulty       Float     @default(0.0) // FSRS difficulty
+  due              DateTime  @default(now()) // FSRS due date
+  reps             Int       @default(0)
+  lapses           Int       @default(0)
+  state            Int       @default(0) // 0: New, 1: Learning, 2: Review, 3: Relearning
+  lastReview       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Cascade explanation: Concept deletion cascades because flashcards assess mastery of that specific concept asset.
+  concept        Concept         @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Slide deletion sets null so review cards remain playable even if source slide deck is re-uploaded.
+  sourceSlide    Slide?          @relation(fields: [sourceSlideId], references: [id], onDelete: SetNull)
+  reviews        Review[]
+  savedNewsItems SavedNewsItem[]
+
+  @@index([conceptId])
+  @@index([type])
+}
+
+// ------------------------------------------------------------------------------
+// 12. Review (Spaced Repetition Review Log)
+// ------------------------------------------------------------------------------
+model Review {
+  id          String   @id @default(cuid())
+  cardId      String
+  userId      String
+  grade       Int // 1: Again, 2: Hard, 3: Good, 4: Easy (FSRS rating scale)
+  beforeValue Float // Value before revision
+  afterValue  Float // Value after revision (Reinvestment gain)
+  stability   Float
+  difficulty  Float
+  timestamp   DateTime @default(now())
+
+  // Cascade explanation: Card deletion cascades because review events are historical telemetry on that card.
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  // Cascade explanation: User deletion cascades because reviews are personal student study telemetry.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([cardId])
+  @@index([userId])
+  @@index([timestamp])
+}
+
+// ------------------------------------------------------------------------------
+// 13. Transaction (Bahi-Khata General Ledger Entries)
+// ------------------------------------------------------------------------------
+enum TransactionType {
+  INITIAL_OFFERING
+  REINVESTMENT // Mastery gained from active review
+  DEPRECIATION // FSRS spaced repetition decay
+  ASSIGNMENT_DIVIDEND // Asset value boost from high assignment performance
+  PENALTY // Value drop from missed deadline or poor performance
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  userId      String
+  subjectId   String?
+  conceptId   String?
+  type        TransactionType
+  amount      Float // Ledger entry value delta (+ gain or - depreciation)
+  beforeValue Float? // Value prior to event
+  afterValue  Float? // Value following event
+  reason      String
+  refId       String? // Reference to card, review, or assignment id
+  timestamp   DateTime        @default(now())
+
+  // Cascade explanation: User deletion cascades because the bahi-khata ledger belongs to that student's company.
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion sets null so historical financial accounting lines remain immutable in ledger history.
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  // Cascade explanation: Concept deletion sets null so historical accounting lines remain audit-traceable.
+  concept Concept? @relation(fields: [conceptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([subjectId])
+  @@index([timestamp])
+}
+
+// ------------------------------------------------------------------------------
+// 14. Question (Exam, Case Discussion, and Interview Question Bank)
+// ------------------------------------------------------------------------------
+enum QuestionType {
+  EXAM
+  CASE
+  INTERVIEW
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  subjectId     String
+  sourceSlideId String?
+  type          QuestionType
+  text          String       @db.Text
+  answerGuide   String       @db.Text
+  rubrics       String?      @db.Text
+  difficulty    String? // Easy, Medium, Hard
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because practice questions test that subject's curriculum.
+  subject     Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Slide deletion sets null so questions remain in the bank even if slide decks get replaced.
+  sourceSlide Slide?  @relation(fields: [sourceSlideId], references: [id], onDelete: SetNull)
+
+  @@index([subjectId])
+  @@index([type])
+}
+
+// ------------------------------------------------------------------------------
+// 15. Assignment (Coursework Affecting Credit Rating & Share Price)
+// ------------------------------------------------------------------------------
+enum AssignmentStatus {
+  PENDING
+  SUBMITTED
+  GRADED
+  LATE
+  MISSED
+}
+
+model Assignment {
+  id                    String           @id @default(cuid())
+  subjectId             String
+  userId                String
+  evaluationComponentId String?
+  title                 String
+  description           String?          @db.Text
+  deadline              DateTime
+  deliverableFormat     String? // e.g. "PDF max 5 pages, 10-slide deck"
+  progress              Float            @default(0.0) // 0 to 100%
+  customStatus          String           @default("Not started") // Not started / In progress / Review / Submitted
+  checklist             Json? // extracted deliverables, format rules, word/page limits, checklist
+  briefText             String?          @db.Text
+  riskScore             Float            @default(0.0) // weight * (1 - progress) / daysLeft
+  submittedAt           DateTime?
+  grade                 Float?
+  maxGrade              Float            @default(100.0)
+  weight                Float            @default(10.0)
+  status                AssignmentStatus @default(PENDING)
+  creditImpact          Float            @default(0.0) // Impact on credit score rating (AAA to D)
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because assignments are course requirements of that subject.
+  subject             Subject              @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  // Cascade explanation: User deletion cascades because student submission progress belongs to the user.
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  evaluationComponent EvaluationComponent? @relation(fields: [evaluationComponentId], references: [id], onDelete: SetNull)
+  tasks               Task[]
+
+  @@index([subjectId])
+  @@index([userId])
+  @@index([deadline])
+  @@index([evaluationComponentId])
+}
+
+// ------------------------------------------------------------------------------
+// 16. GroupProject (Team Collaboration Workspace)
+// ------------------------------------------------------------------------------
+model GroupProject {
+  id          String   @id @default(cuid())
+  subjectId   String
+  title       String
+  description String?  @db.Text
+  deadline    DateTime
+  status      String   @default("active")
+  fileLinks   Json? // [{ name, url, addedBy, date }]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Cascade explanation: Subject deletion cascades because group projects are deliverables inside that course.
+  subject      Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  members      GroupMember[]
+  tasks        Task[]
+  meetingNotes MeetingNote[]
+
+  @@index([subjectId])
+}
+
+// ------------------------------------------------------------------------------
+// 17. GroupMember (Team Roster for Group Projects)
+// ------------------------------------------------------------------------------
+model GroupMember {
+  id               String   @id @default(cuid())
+  groupProjectId   String
+  userId           String?
+  role             String   @default("Contributor")
+  name             String
+  email            String?
+  onTimeTasksCount Int      @default(0)
+  lateTasksCount   Int      @default(0)
+  filesAddedCount  Int      @default(0)
+  createdAt        DateTime @default(now())
+
+  // Cascade explanation: GroupProject deletion cascades because roster entries only exist within that team project.
+  groupProject GroupProject @relation(fields: [groupProjectId], references: [id], onDelete: Cascade)
+  // Cascade explanation: User deletion sets null so team member names stay displayed in the project archive.
+  user         User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  tasks        Task[]
+
+  @@index([groupProjectId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 18. Task (Actionable Deliverable / To-do)
+// ------------------------------------------------------------------------------
+model Task {
+  id             String    @id @default(cuid())
+  userId         String
+  subjectId      String?
+  groupProjectId String?
+  assignmentId   String?
+  ownerId        String?
+  title          String
+  description    String?   @db.Text
+  deadline       DateTime?
+  status         String    @default("TODO") // "TODO", "IN_PROGRESS", "DONE"
+  isOverdue      Boolean   @default(false)
+  completed      Boolean   @default(false)
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Cascade explanation: User deletion cascades because individual tasks belong to that student's action queue.
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion sets null so tasks can still be viewed in personal planner even if subject archives.
+  subject      Subject?      @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  // Cascade explanation: GroupProject deletion cascades because team project tasks dissolve if project is deleted.
+  groupProject GroupProject? @relation(fields: [groupProjectId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Assignment deletion cascades because assignment tasks dissolve if assignment is deleted.
+  assignment   Assignment?   @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  owner        GroupMember?  @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([deadline])
+  @@index([ownerId])
+}
+
+// ------------------------------------------------------------------------------
+// 19. StudySession (Active Review Telemetry)
+// ------------------------------------------------------------------------------
+model StudySession {
+  id            String    @id @default(cuid())
+  userId        String
+  subjectId     String?
+  start         DateTime  @default(now())
+  end           DateTime?
+  cardsReviewed Int       @default(0)
+  accuracy      Float     @default(0.0) // Accuracy rate (0-100)
+  cardsPerMin   Float     @default(0.0) // Velocity telemetry
+  locationId    String?
+  createdAt     DateTime  @default(now())
+
+  // Cascade explanation: User deletion cascades because study sessions are student personal learning telemetry.
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion sets null so cumulative study history remains in company activity logs.
+  subject  Subject?  @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  // Cascade explanation: Location deletion sets null to preserve study session metrics if geolocation records are pruned.
+  location Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([start])
+}
+
+// ------------------------------------------------------------------------------
+// 20. Location (Opt-in Geospatial Coordinates)
+// ------------------------------------------------------------------------------
+model Location {
+  id        String   @id @default(cuid())
+  userId    String
+  lat       Float // Rounded for student privacy protection
+  lng       Float // Rounded for student privacy protection
+  label     String // e.g. "Library 3rd Floor", "Dorm Study Room"
+  optIn     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Cascade explanation: User deletion cascades because privacy-sensitive location data must be deleted with the user account.
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studySessions StudySession[]
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 22. MemoryEntry (Agent Long-Term Context Memory)
+// ------------------------------------------------------------------------------
+enum MemoryType {
+  WEAK_CONCEPT
+  PROFESSOR_PREFERENCE
+  PAST_MISTAKE
+  DEADLINE
+  GROUP_INFO
+  PERSONAL_RULE
+}
+
+model MemoryEntry {
+  id        String                       @id @default(cuid())
+  userId    String
+  subjectId String?
+  type      MemoryType
+  content   String                       @db.Text
+  source    String? // Provenance: origin chat, deck, or syllabus reference
+  embedding Unsupported("vector(1536)")?
+  createdAt DateTime                     @default(now())
+  updatedAt DateTime                     @updatedAt
+
+  // Cascade explanation: User deletion cascades because AI episodic memory is private user context.
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion sets null so personal rules and professor insights persist if course codes change.
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([type])
+}
+
+// ------------------------------------------------------------------------------
+// 23. Skill (Marketable Capability in Career Vault)
+// ------------------------------------------------------------------------------
+model Skill {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String // e.g. "Product Sense", "Financial Analysis"
+  category    String? // e.g. "Strategy & Execution", "Analytical Foundation"
+  proficiency Float    @default(0.0) // 0 to 100 derived from weighted concepts + mocks
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skillConcepts SkillConcept[]
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 23b. TargetRole (Student's Desired Career Profiles)
+// ------------------------------------------------------------------------------
+model TargetRole {
+  id                String   @id @default(cuid())
+  userId            String
+  roleName          String // e.g. "Product Manager", "Consultant", "Brand Manager", "Business Analyst"
+  targetProficiency Float    @default(85.0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 24. SkillConcept (Link between Theoretical Concept and Practical Skill)
+// ------------------------------------------------------------------------------
+model SkillConcept {
+  id            String   @id @default(cuid())
+  skillId       String
+  conceptId     String
+  confirmed     Boolean  @default(true)
+  weight        Float    @default(1.0)
+  suggestedByAi Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  skill   Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  concept Concept @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+
+  @@unique([skillId, conceptId])
+  @@index([skillId])
+  @@index([conceptId])
+}
+
+// ------------------------------------------------------------------------------
+// 25. Project (Vault Portfolio Showcase)
+// ------------------------------------------------------------------------------
+model Project {
+  id             String    @id @default(cuid())
+  userId         String
+  title          String
+  description    String    @db.Text
+  problem        String?   @db.Text
+  role           String?
+  method         String?   @db.Text
+  tools          String?
+  outcome        String?   @db.Text
+  metric         String?
+  teamSize       Int?
+  startDate      DateTime?
+  endDate        DateTime?
+  links          Json?
+  impactSummary  String?   @db.Text
+  repoOrDocUrl   String?
+  resumeBullet   String?   @db.Text
+  starStory      Json?
+  linkedInDesc   String?   @db.Text
+  approved       Boolean   @default(false)
+  isPublic       Boolean   @default(true)
+  isSignature    Boolean   @default(false) // Student can pin final/major projects; appear first in Library and Career
+  termId         String?
+  subjectId      String?
+  vaultEntryDate DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term    Term?    @relation(fields: [termId], references: [id], onDelete: SetNull)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([termId])
+  @@index([subjectId])
+}
+
+// ------------------------------------------------------------------------------
+// 26. MockInterview (Case & Behavioral Interview Drills / Cold Calls)
+// ------------------------------------------------------------------------------
+model MockInterview {
+  id               String   @id @default(cuid())
+  userId           String
+  subjectId        String?
+  conceptId        String?
+  coldCallType     String? // e.g. "COLD_CALL", "INTERVIEW"
+  mode             String   @default("PM") // PM, CONSULTING, MARKETING, BEHAVIOURAL
+  structureScore   Float? // 1 to 5
+  depthScore       Float? // 1 to 5
+  commScore        Float? // 1 to 5
+  businessScore    Float? // 1 to 5
+  insightScore     Float? // 1 to 5 (backward compat)
+  evidenceScore    Float? // 1 to 5 (backward compat)
+  roleTargeted     String // e.g. "Product Manager", "Consultant"
+  companyTargeted  String? // e.g. "Google", "McKinsey"
+  question         String?  @db.Text
+  transcript       Json?
+  fixes            Json? // Array of 3 specific fixes
+  completed        Boolean  @default(false)
+  durationSeconds  Int?
+  performanceScore Float    @default(0.0) // 0 to 100
+  feedback         String?  @db.Text
+  createdAt        DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  concept Concept? @relation(fields: [conceptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([conceptId])
+}
+
+// ------------------------------------------------------------------------------
+// 26b. ExamPlan (Adaptive Study Schedule for Exam Preparation)
+// ------------------------------------------------------------------------------
+model ExamPlan {
+  id           String   @id @default(cuid())
+  userId       String
+  subjectId    String
+  examDate     DateTime
+  scopeDeckIds Json? // Array of deck IDs included in exam scope
+  daysPlan     Json // Day-by-day plan with reviews, cold calls, mock paper date
+  status       String   @default("ACTIVE") // ACTIVE, COMPLETED, ARCHIVED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Cascade explanation: User deletion cascades because exam plans are personal study schedules.
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Cascade explanation: Subject deletion cascades because exam plans are tied directly to that course syllabus.
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([subjectId])
+  @@index([examDate])
+}
+
+// ------------------------------------------------------------------------------
+// 27. Squad (Small Peer Study Accountability Group)
+// ------------------------------------------------------------------------------
+model Squad {
+  id                   String   @id @default(cuid())
+  name                 String // e.g. "Alpha Value Investors"
+  cohortId             String?
+  code                 String   @unique // Join invite code
+  conglomerateIndex    Float    @default(0.0) // Aggregated portfolio performance index
+  weeklyRecoveredValue Float    @default(0.0) // For weekly takeover bid challenge
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // Cascade explanation: Cohort deletion sets null so peer study squads survive even if cohort structures are reorganised.
+  cohort  Cohort?       @relation(fields: [cohortId], references: [id], onDelete: SetNull)
+  members SquadMember[]
+
+  @@index([code])
+}
+
+// ------------------------------------------------------------------------------
+// 28. SquadMember (Membership in Peer Squad)
+// ------------------------------------------------------------------------------
+model SquadMember {
+  id                 String   @id @default(cuid())
+  squadId            String
+  userId             String
+  role               String   @default("Member") // Leader, Member
+  weeklyContribution Float    @default(0.0) // Value recovered contributed to conglomerate
+  activityLevel      String   @default("Normal") // Activity level (scores stay private)
+  isPublic           Boolean  @default(false) // Opt-in to show breakdown
+  joinedAt           DateTime @default(now())
+
+  // Cascade explanation: Squad deletion cascades because membership entries have no meaning if the squad is dissolved.
+  squad Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  // Cascade explanation: User deletion cascades because the member record is removed when a student deletes their account.
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([squadId, userId])
+  @@index([squadId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 29. Cohort (Degree Batch / Section)
+// ------------------------------------------------------------------------------
+model Cohort {
+  id               String    @id @default(cuid())
+  name             String // e.g. "MBA 2026, Section A"
+  program          String    @default("MBA")
+  year             Int       @default(2026)
+  inviteCode       String?   @unique
+  inviteLinkExpiry DateTime?
+  maxMembers       Int       @default(100)
+  monthlyAiCap     Float     @default(50.0) // Monthly cap in USD
+  adminId          String? // Cohort creator / admin userId
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  members          CohortMember[]
+  squads           Squad[]
+  sharedDecks      SharedCohortDeck[]
+  timetableEntries CohortTimetableEntry[]
+  deadlines        CohortDeadline[]
+
+  @@index([program, year])
+  @@index([inviteCode])
+}
+
+// ------------------------------------------------------------------------------
+// 30. CohortMember (Roster in Academic Cohort)
+// ------------------------------------------------------------------------------
+model CohortMember {
+  id       String   @id @default(cuid())
+  cohortId String
+  userId   String
+  role     String   @default("Student")
+  joinedAt DateTime @default(now())
+
+  // Cascade explanation: Cohort deletion cascades because student batch rosters cease when the cohort is purged.
+  cohort Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  // Cascade explanation: User deletion cascades because student profile removal removes them from the cohort roster.
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([cohortId, userId])
+  @@index([cohortId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 30b. SharedCohortDeck (Single-Processed Shared Slide Decks with Individual Cards)
+// ------------------------------------------------------------------------------
+model SharedCohortDeck {
+  id             String   @id @default(cuid())
+  cohortId       String
+  deckId         String
+  sharedByUserId String
+  noticeAccepted Boolean  @default(true) // "For enrolled students only"
+  sharedAt       DateTime @default(now())
+
+  cohort   Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  deck     Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  sharedBy User   @relation(fields: [sharedByUserId], references: [id], onDelete: Cascade)
+
+  @@unique([cohortId, deckId])
+  @@index([cohortId])
+  @@index([sharedByUserId])
+}
+
+// ------------------------------------------------------------------------------
+// 30c. CohortTimetableEntry (Common Cohort Class Schedule)
+// ------------------------------------------------------------------------------
+model CohortTimetableEntry {
+  id          String   @id @default(cuid())
+  cohortId    String
+  dayOfWeek   Int // 1 (Mon) to 7 (Sun)
+  startTime   String // "09:30"
+  endTime     String // "11:00"
+  subjectCode String // "FIN601"
+  subjectName String // "Corporate Finance"
+  room        String?
+  createdAt   DateTime @default(now())
+
+  cohort Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId])
+}
+
+// ------------------------------------------------------------------------------
+// 30d. CohortDeadline (Common Cohort Deliverables & Assignments)
+// ------------------------------------------------------------------------------
+model CohortDeadline {
+  id          String   @id @default(cuid())
+  cohortId    String
+  title       String
+  subjectCode String
+  dueDate     DateTime
+  weight      Float    @default(20.0)
+  format      String   @default("Report")
+  createdAt   DateTime @default(now())
+
+  cohort Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId])
+}
+
+// ------------------------------------------------------------------------------
+// 30e. HiddenCohortItem (Student-Specific Hidden Timetable/Deadline Items)
+// ------------------------------------------------------------------------------
+model HiddenCohortItem {
+  id       String @id @default(cuid())
+  userId   String
+  itemId   String
+  itemType String // "TIMETABLE" | "DEADLINE"
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 30f. Feedback (Student Bug Reports, AI Ratings, and Exam Feedback Loop)
+// ------------------------------------------------------------------------------
+model Feedback {
+  id             String   @id @default(cuid())
+  userId         String?
+  type           String // "BUG" | "FEATURE" | "CONFUSING" | "PRAISE" | "AI_RATING" | "EXAM_SURVEY"
+  content        String   @db.Text
+  aiRating       Boolean? // true = thumbs up, false = thumbs down
+  ratingReason   String?  @db.Text
+  contextUrl     String?
+  browser        String?
+  status         String   @default("NEW") // "NEW" | "REVIEWED" | "RESOLVED"
+  aiThemeCluster String?
+  createdAt      DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+}
+
+// ------------------------------------------------------------------------------
+// 30g. FeatureFlag (Runtime Feature Toggles for Instant Admin Control)
+// ------------------------------------------------------------------------------
+model FeatureFlag {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  enabled     Boolean  @default(true)
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+// ------------------------------------------------------------------------------
+// 31. AiCall (Audit Trail of AI Model Usage, Tokens & Cost)
+// ------------------------------------------------------------------------------
+model AiCall {
+  id               String   @id @default(cuid())
+  userId           String?
+  model            String // e.g. "gemini-1.5-flash", "gpt-4o"
+  tokens           Int // Total tokens
+  promptTokens     Int      @default(0)
+  completionTokens Int      @default(0)
+  cost             Float // In USD
+  feature          String // e.g. "deck_parsing", "card_generation", "mock_interview"
+  timestamp        DateTime @default(now())
+
+  // Cascade explanation: User deletion sets null so financial billing, security audits, and token cost metrics stay intact.
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([feature])
+  @@index([timestamp])
+}
+
+// ------------------------------------------------------------------------------
+// 32. CreditRatingAudit (Provenance for AAA to D Rating History)
+// ------------------------------------------------------------------------------
+model CreditRatingAudit {
+  id             String   @id @default(cuid())
+  userId         String
+  rating         String // e.g. "AAA", "AA", "A", "BBB", "BB", "B", "CCC", "D"
+  previousRating String?
+  reason         String // Detailed reason for rating upgrade / downgrade
+  timestamp      DateTime @default(now())
+
+  // Cascade explanation: User deletion cascades because credit audits belong to the student enterprise.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, timestamp])
+}
+
+// ------------------------------------------------------------------------------
+// 33. BridgeLoan (Non-Punitive Skip Days & Borrowed Reinvestment Grace)
+// ------------------------------------------------------------------------------
+model BridgeLoan {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime // Date of the skipped study day
+  isFree    Boolean  @default(true) // First 2 in a calendar month are free
+  penalty   Float    @default(0.0) // Value penalty if borrowed beyond 2
+  reason    String?
+  status    String   @default("ACTIVE") // ACTIVE, REPAID
+  createdAt DateTime @default(now())
+
+  // Cascade explanation: User deletion cascades because bridge loans belong to that student's ledger.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+// ------------------------------------------------------------------------------
+// 34. QuarterlyReport (Weekly "Quarterly Results" Comprehensive Audit Report)
+// ------------------------------------------------------------------------------
+model QuarterlyReport {
+  id                String   @id @default(cuid())
+  userId            String
+  weekNumber        Int?
+  startDate         DateTime
+  endDate           DateTime
+  revenueGained     Float // Total reinvestment value recovered
+  depreciationLoss  Float // Total depreciation decay
+  netValueChange    Float // Net delta
+  bestDepartment    String // Code or Name
+  worstDepartment   String // Code or Name
+  creditRating      String
+  creditRatingDelta String // e.g. "+1 notch", "Unchanged", "-1 notch"
+  conceptsAtRisk    Json // Top 3 concepts at risk next week
+  ceoLetter         Json // { wentWell: string, slipping: string, oneThingToDo: string }
+  createdAt         DateTime @default(now())
+
+  // Cascade explanation: User deletion cascades because financial reports belong to the student's company archive.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+// ------------------------------------------------------------------------------
+// 35. TimetableEntry (Recurring Class Schedule per Department)
+// ------------------------------------------------------------------------------
+model TimetableEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  subjectId String
+  dayOfWeek Int // 1: Monday, 2: Tuesday ... 7: Sunday
+  startTime String // "09:30"
+  endTime   String // "11:00"
+  room      String? // "CR-201", "Audi B"
+  location  String? // "Academic Block 1"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([subjectId])
+  @@index([dayOfWeek])
+}
+
+// ------------------------------------------------------------------------------
+// 36. MeetingNote (Group Project Meeting Minutes with AI Synthesis)
+// ------------------------------------------------------------------------------
+model MeetingNote {
+  id             String   @id @default(cuid())
+  groupProjectId String
+  userId         String
+  title          String
+  rawContent     String   @db.Text
+  decisions      Json? // string[]
+  actionItems    Json? // { id, title, ownerName, ownerEmail, deadline, status }[]
+  openQuestions  Json? // string[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  groupProject GroupProject @relation(fields: [groupProjectId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([groupProjectId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 37. Notification (Web Push & In-App Event Dispatch)
+// ------------------------------------------------------------------------------
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // DEADLINE_48H, DEADLINE_6H, DAILY_REVIEWS, GROUP_TASK_ASSIGNED, MEETING_ACTION_ITEM
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  channel   String   @default("IN_APP") // IN_APP, PUSH
+  sentAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([sentAt])
+}
+
+// ------------------------------------------------------------------------------
+// 38. NotificationSettings (Student Alert Preferences & Quiet Hours)
+// ------------------------------------------------------------------------------
+model NotificationSettings {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  quietHoursStart      String   @default("22:00")
+  quietHoursEnd        String   @default("08:00")
+  quietHoursEnabled    Boolean  @default(true)
+  notifyDeadline48h    Boolean  @default(true)
+  notifyDeadline6h     Boolean  @default(true)
+  notifyDailyReviews   Boolean  @default(true)
+  reviewReminderTime   String   @default("18:00")
+  notifyGroupTasks     Boolean  @default(true)
+  notifyMeetingActions Boolean  @default(true)
+  calendarExportToken  String   @unique @default(cuid())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ------------------------------------------------------------------------------
+// 39. MorningBrief (Daily Executive Morning Dossier)
+// ------------------------------------------------------------------------------
+model MorningBrief {
+  id                  String   @id @default(cuid())
+  userId              String
+  date                DateTime @default(now())
+  classes             Json // [{ subjectCode, subjectName, startTime, endTime, room }]
+  dueReviewsCount     Int      @default(0)
+  highestRiskDeadline Json? // { title, subjectCode, daysLeft, riskScore, weight }
+  coldCallQuestion    Json? // { question, subjectCode, conceptName }
+  professorNote       String? // e.g. "Prof. Rao prefers 2-line bottom-line upfront"
+  readTimeSeconds     Int      @default(25)
+  createdAt           DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+}
+
+// ------------------------------------------------------------------------------
+// 40. LocationPermission (Fine-Grained Opt-In & Privacy Controls)
+// ------------------------------------------------------------------------------
+model LocationPermission {
+  id                        String   @id @default(cuid())
+  userId                    String   @unique
+  masterEnabled             Boolean  @default(false)
+  focusMapEnabled           Boolean  @default(false)
+  studyZoneRemindersEnabled Boolean  @default(false)
+  fieldCasesEnabled         Boolean  @default(false)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ------------------------------------------------------------------------------
+// 41. FieldCase (Real-World Geospatial Micro-Case Study)
+// ------------------------------------------------------------------------------
+model FieldCase {
+  id               String    @id @default(cuid())
+  userId           String
+  conceptId        String?
+  lat              Float // Coarse rounded ~100m
+  lng              Float // Coarse rounded ~100m
+  areaName         String // e.g. "Connaught Place / Cyber City"
+  businessContext  Json // OSM nearby businesses: [{ name, category, distanceMeters }]
+  casePrompt       String    @db.Text
+  studentAnswer    String?   @db.Text
+  feedback         String?   @db.Text
+  score            Float?
+  reinvestmentGain Float     @default(0.0)
+  completed        Boolean   @default(false)
+  completedAt      DateTime?
+  createdAt        DateTime  @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  concept Concept? @relation(fields: [conceptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([completed])
+}
+
+// ------------------------------------------------------------------------------
+// 43. OverpassCache (24h Cache for OpenStreetMap POI Entities)
+// ------------------------------------------------------------------------------
+model OverpassCache {
+  id        String   @id @default(cuid())
+  cacheKey  String   @unique // Coarse rounded e.g. "28.54_77.19"
+  data      Json // Array of nearby businesses
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([cacheKey])
+  @@index([expiresAt])
+}
+
+// ------------------------------------------------------------------------------
+// 44. NewsFeed (RSS Feeds for Today's Ledger)
+// ------------------------------------------------------------------------------
+model NewsFeed {
+  id            String    @id @default(cuid())
+  name          String
+  url           String    @unique
+  category      String    @default("Business")
+  isActive      Boolean   @default(true)
+  lastFetchedAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  items NewsItem[]
+}
+
+// ------------------------------------------------------------------------------
+// 45. NewsItem (Headline & Summary Cache - Never full text)
+// ------------------------------------------------------------------------------
+model NewsItem {
+  id                String   @id @default(cuid())
+  feedId            String?
+  title             String   @db.Text
+  summary           String   @db.Text
+  source            String   @default("The Hindu")
+  link              String   @unique
+  pubDate           DateTime
+  subjectCode       String?
+  topicName         String?
+  whyItMatters      String?  @db.Text
+  gdQuestion        String?  @db.Text
+  interviewQuestion String?  @db.Text
+  createdAt         DateTime @default(now())
+
+  feed    NewsFeed?       @relation(fields: [feedId], references: [id], onDelete: SetNull)
+  savedBy SavedNewsItem[]
+
+  @@index([pubDate])
+  @@index([subjectCode])
+}
+
+// ------------------------------------------------------------------------------
+// 46. SavedNewsItem (Student Saved Current Affairs & Review Flashcards)
+// ------------------------------------------------------------------------------
+model SavedNewsItem {
+  id         String   @id @default(cuid())
+  userId     String
+  newsItemId String
+  cardId     String?
+  savedAt    DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  newsItem NewsItem @relation(fields: [newsItemId], references: [id], onDelete: Cascade)
+  card     Card?    @relation(fields: [cardId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, newsItemId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 47. NewsQuiz (Weekly Current Affairs Quiz from Saved Items)
+// ------------------------------------------------------------------------------
+model NewsQuiz {
+  id          String    @id @default(cuid())
+  userId      String
+  title       String    @default("Weekly Current Affairs Quiz")
+  weekNumber  Int       @default(1)
+  questions   Json // 10 questions: [{ id, question, options: string[], correctIndex: number, explanation: string }]
+  score       Int?
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------
+// 48. RevisionSheet (1-Page Printable Session Revision Sheet)
+// ------------------------------------------------------------------------------
+model RevisionSheet {
+  id            String   @id @default(cuid())
+  deckId        String   @unique
+  bigIdea       String   @db.Text
+  keyPoints     Json     // 5 key points: [{ point: string, slideNumber: number, memoryHook: string }]
+  frameworks    Json     // [{ title: string, type: "2x2" | "flow" | "pyramid", explanation: string, data: any }]
+  formulas      Json     // [{ name: string, formula: string, meaning: string }]
+  examQuestions Json     // 3 questions: [string, string, string]
+  studentNotes  String?  @db.Text
+  sourceHash    String?  // Hash of slides + personal notes to know when to regenerate
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  deck Deck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+}
+
+// ------------------------------------------------------------------------------
+// 49. Formula (Formula Sheet with Worked Examples & Practice Math)
+// ------------------------------------------------------------------------------
+model Formula {
+  id               String   @id @default(cuid())
+  subjectId        String
+  deckId           String?
+  slideNumber      Int?
+  name             String
+  category         String   // "Finance", "Economics", "Statistics", "Marketing"
+  formulaLatex     String
+  variableMeanings Json     // [{ symbol: string, meaning: string }]
+  whenToUse        String   @db.Text
+  isUnclear        Boolean  @default(false) // If formula on slide is unclear -> "Check these"
+  unclearNote      String?
+  calculationKey   String   // deterministic calculator key (e.g., "wacc", "npv", "pe_ratio", "dupont", "clv", "elasticity", "inventory_turnover", "cagr", "sharpe", "contribution_margin")
+  exampleParams    Json     // Numbers used for worked example
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  deck    Deck?   @relation(fields: [deckId], references: [id], onDelete: SetNull)
+
+  @@index([subjectId])
+  @@index([category])
+  @@index([isUnclear])
+}
+
+// ------------------------------------------------------------------------------
+// 50. TopicConfidence (Pre-Session 1-Tap Confidence Calibration)
+// ------------------------------------------------------------------------------
+model TopicConfidence {
+  id         String   @id @default(cuid())
+  userId     String
+  conceptId  String
+  confidence String   // "not_sure" | "fairly_sure" | "very_sure"
+  date       DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  concept Concept @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+
+  @@index([userId, conceptId, date])
+}
+

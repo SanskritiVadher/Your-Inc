@@ -1,0 +1,10 @@
+Hey folks — built an LMS tool for our section called "You Inc." where you run your degree like a company.
+
+The core promise: Upload any lecture deck (.pdf/.pptx) -> get flashcards linked directly to exact slides -> walk into tomorrow's case discussion or exam prepared in ~15 mins.
+
+It uses the FSRS spaced repetition engine so you only review concepts right when they start depreciating.
+
+Join our section cohort here:
+https://youinc.app/cohort/join?code={{INVITE_CODE}}
+
+Subjects and timetable are already pre-filled. Takes under 3 minutes to run your first review.

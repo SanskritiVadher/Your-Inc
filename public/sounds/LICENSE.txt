@@ -1,0 +1,31 @@
+Real Recorded Page-Turn Sound Effects — Licence & Attribution
+==============================================================
+
+Files:
+  - page-flip-1.mp3, page-flip-1.ogg (Duration: ~1.03s, Size: 17.1 KB / 11.2 KB)
+  - page-flip-2.mp3, page-flip-2.ogg (Duration: ~0.87s, Size: 14.6 KB / 10.1 KB)
+  - page-flip-3.mp3, page-flip-3.ogg (Duration: ~0.92s, Size: 15.5 KB / 10.7 KB)
+
+Source:
+  Title: Book sound effects (pg1.wav, pg2.wav, pg3.wav)
+  Author / Recordist: Patrick Lauser
+  Collection: Internet Archive Folksoundomy Effects
+  Original Source URL: https://archive.org/details/book-sound-effects
+  Direct Record Identifier: book-sound-effects
+
+Licence:
+  Creative Commons 0 (CC0 1.0 Universal) — Public Domain Dedication
+  https://creativecommons.org/publicdomain/zero/1.0/
+
+  "The person who associated a work with this deed has dedicated the work
+   to the public domain by waiving all of his or her rights to the work
+   worldwide under copyright law, including all related and neighboring rights,
+   to the extent allowed by law. You can copy, modify, distribute and perform
+   the work, even for commercial purposes, all without asking permission."
+
+Audio Processing Applied:
+  1. Trimmed silence at the start and end using envelope thresholding with 15ms lead-in and 60ms decay padding.
+  2. Applied gentle 10ms raised-cosine fade-in and 80ms smooth fade-out to eliminate edge clicking.
+  3. Peak volume normalised to 0.90 (-0.9 dB) across all samples for consistent acoustic loudness without digital clipping.
+  4. Encoded in dual formats (.mp3 at 128 kbps and .ogg Vorbis at quality 4), each under 40 KB.
+  5. Completely replaces all prior procedural/synthesized white-noise audio.
