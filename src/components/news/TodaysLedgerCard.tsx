@@ -102,9 +102,9 @@ export function TodaysLedgerCard() {
   };
 
   return (
-    <div className="bg-surface rounded-lg border border-border/80 shadow-sm overflow-hidden transition-all duration-300 hover:border-sindoor/30">
+    <div className="bg-surface rounded-lg border border-text/10 shadow-sm overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border/60 bg-bg/50 flex flex-wrap items-center justify-between gap-3">
+      <div className="px-5 py-4 border-b border-text/10 bg-bg/50 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-full bg-sindoor/10 text-sindoor flex items-center justify-center shrink-0">
             <Newspaper size={18} />
@@ -145,7 +145,7 @@ export function TodaysLedgerCard() {
       </div>
 
       {/* Content */}
-      <div className="divide-y divide-border/40">
+      <div className="divide-y divide-text/10">
         {loading ? (
           <div className="p-8 text-center">
             <div className="inline-block animate-spin text-sindoor mb-2">

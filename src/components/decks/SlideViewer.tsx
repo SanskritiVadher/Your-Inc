@@ -50,6 +50,22 @@ export const SlideViewer: React.FC<SlideViewerProps> = ({
   );
   const [isBookMode, setIsBookMode] = useState<boolean>(false);
 
+  // Save position to localStorage and cookie for "Continue where you left off" on Today page
+  useEffect(() => {
+    if (typeof window === "undefined" || !deckId) return;
+    try {
+      const data = {
+        deckId,
+        deckTitle,
+        slideNumber: currentSlideIndex + 1,
+        totalSlides: slides.length,
+        timestamp: Date.now(),
+      };
+      localStorage.setItem("you_inc_last_deck", JSON.stringify(data));
+      document.cookie = `last_opened_deck=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=2592000; SameSite=Lax`;
+    } catch {}
+  }, [deckId, deckTitle, currentSlideIndex, slides.length]);
+
   // Sync with URL query parameter ?slide=X & ?mode=book on mount and popstate
   useEffect(() => {
     if (typeof window === "undefined") return;

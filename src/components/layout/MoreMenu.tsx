@@ -136,16 +136,13 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 p-1.5 rounded-full border border-border bg-surface hover:border-primary/60 transition-all focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className="flex items-center justify-center p-0.5 rounded-full border border-border bg-surface hover:border-primary/60 transition-all focus:outline-none focus:ring-2 focus:ring-primary/30 shrink-0"
         aria-label="User profile and more features menu"
         title="More features & settings"
       >
-        <div className="w-8 h-8 rounded-full bg-sindoor/15 text-sindoor font-heading font-bold text-sm flex items-center justify-center border border-sindoor/30 shadow-xs">
+        <div className="w-8 h-8 rounded-full bg-primary/15 text-primary font-heading font-medium text-sm flex items-center justify-center border border-primary/30 shadow-xs">
           {userInitial}
         </div>
-        <span className="hidden lg:inline text-xs font-mono text-text max-w-[100px] truncate">
-          {userName.split(" ")[0]}
-        </span>
       </button>
 
       {/* Flyout Menu */}

@@ -101,29 +101,15 @@ export const AppShell: React.FC<AppShellProps> = ({
         >
           <div>
             {/* Header / Identity */}
-            <div className="pb-6 border-b border-border/80">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-full bg-cobalt/10 text-cobalt flex items-center justify-center font-heading text-sm font-medium shrink-0">
-                  {userCompanyName.charAt(0) || "Y"}
-                </div>
-                <div className="min-w-0">
-                  <h1 className="font-heading text-lg font-normal tracking-wide text-text truncate">
-                    {userCompanyName}
-                  </h1>
-                  <p className="font-body text-xs text-text-muted">
-                    Study Notebook
-                  </p>
-                </div>
-              </div>
-
-              {/* Deadline Status Badge */}
-              <div
-                className={`mt-3 inline-flex items-center space-x-2 px-2.5 py-1 rounded border text-xs font-body ${deadlineStatus.badge}`}
-                title={totalDeadlines > 0 ? `Credit rating: ${creditRating}` : "Add an assignment in Plan to start tracking deadlines"}
-              >
-                <span className="text-text-muted">Deadline record:</span>
-                <span className={`font-medium ${deadlineStatus.color}`}>{deadlineStatus.label}</span>
-              </div>
+            <div className="pb-5 border-b border-border/80">
+              <Link href="/" className="block group">
+                <span className="font-heading text-2xl tracking-tight text-text block leading-none">
+                  You Inc.
+                </span>
+                <p className="font-body text-xs text-text-muted mt-1.5">
+                  Study Notebook
+                </p>
+              </Link>
             </div>
 
             {/* 5-item Simplified Navigation */}
@@ -150,8 +136,8 @@ export const AppShell: React.FC<AppShellProps> = ({
           </div>
 
           {/* Bottom Toolbar with More Menu Profile Avatar & Theme toggle */}
-          <div className="pl-6 pt-6 border-t border-border/60">
-            <div className="flex items-center justify-between">
+          <div className="pt-4 border-t border-border/60 w-full">
+            <div className="flex items-center justify-between gap-1.5 w-full">
               {/* More Menu (under profile avatar) */}
               <MoreMenu
                 userInitial={userInitial}
@@ -162,7 +148,7 @@ export const AppShell: React.FC<AppShellProps> = ({
                 hasCareer={hasCareer}
               />
 
-              <div className="flex items-center space-x-1.5">
+              <div className="flex items-center gap-1.5 shrink-0">
                 <ThemeToggle />
                 <button
                   type="button"
@@ -177,9 +163,9 @@ export const AppShell: React.FC<AppShellProps> = ({
                   }}
                   title={`Command Palette (${modKey === "⌘" ? "⌘K" : "Ctrl K"})`}
                   aria-label={`Command Palette (${modKey === "⌘" ? "⌘K" : "Ctrl K"})`}
-                  className="h-8 px-2 rounded border border-border/70 text-text-muted hover:text-text hover:bg-surface transition-colors font-body text-xs flex items-center gap-1 shrink-0 whitespace-nowrap"
+                  className="h-8 px-2 rounded border border-border/70 bg-surface/60 hover:bg-surface text-text-muted hover:text-text transition-colors font-body text-xs flex items-center gap-1 shrink-0 whitespace-nowrap"
                 >
-                  <Command size={13} />
+                  <Command size={12} />
                   <span className="text-[11px] font-medium">{modKey === "⌘" ? "⌘K" : "Ctrl K"}</span>
                 </button>
               </div>
