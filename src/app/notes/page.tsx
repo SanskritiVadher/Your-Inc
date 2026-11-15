@@ -4,11 +4,14 @@ import { NotesClient } from "./NotesClient";
 import { DateOverridePill } from "@/components/dev/DateOverridePill";
 import { PageHeaderBand } from "@/components/motifs/PageHeaderBand";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function NotesPage() {
-  const user = await prisma.user.findFirst({
+  const currentUser = await getCurrentUser();
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser.id },
     include: {
       subjects: {
         include: {

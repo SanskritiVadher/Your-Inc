@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getFormulas } from "@/lib/formulas/formulaService";
 
 export async function GET(req: Request) {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

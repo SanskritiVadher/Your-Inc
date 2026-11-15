@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rozha_One, Mukta, Kalam, JetBrains_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -43,18 +44,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${rozhaOne.variable} ${mukta.variable} ${kalam.variable} ${jetbrainsMono.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen bg-bg text-text antialiased">
-        <ThemeProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html
+        lang="en"
+        className={`${rozhaOne.variable} ${mukta.variable} ${kalam.variable} ${jetbrainsMono.variable}`}
+        suppressHydrationWarning
+      >
+        <body className="min-h-screen bg-bg text-text antialiased">
+          <ThemeProvider>
+            <ToastProvider>
+              {children}
+            </ToastProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

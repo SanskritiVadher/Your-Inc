@@ -149,7 +149,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
         <div className="pt-2">
           <Link
             href="/"
-            className="stamp-press inline-flex items-center space-x-2 px-8 py-3.5 rounded-md bg-[#1F4E8C] dark:bg-[#7FA6E0] text-[#F7F1E5] dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all"
+            className="stamp-press inline-flex items-center space-x-2 px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all"
           >
             <span>Close journal</span>
           </Link>
@@ -252,7 +252,7 @@ export const CalmReviewWorkspace: React.FC<CalmReviewWorkspaceProps> = ({
           <div className="text-center">
             <button
               onClick={() => setIsRevealed(true)}
-              className="stamp-press px-8 py-3.5 rounded-md bg-[#1F4E8C] dark:bg-[#7FA6E0] text-[#F7F1E5] dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all w-full sm:w-auto"
+              className="stamp-press px-8 py-3.5 rounded-md bg-[#5B6B2E] dark:bg-[#A3B46A] text-white dark:text-[#141B2D] text-sm font-medium shadow hover:opacity-95 transition-all w-full sm:w-auto"
             >
               Reveal answer
             </button>

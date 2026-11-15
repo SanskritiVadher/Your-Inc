@@ -7,16 +7,38 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { provider = "google", email, name, isFresh } = body;
+    const { provider = "google", email, name, isFresh, isDemo } = body;
 
     let user;
 
-    if (isFresh) {
-      // Create a fresh test user with a unique clerk ID and onboardingCompleted: false
+    if (isDemo) {
+      // Demo account login
+      user = await prisma.user.findFirst({
+        where: { clerkId: "user_local_dev_ceo" },
+      });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            clerkId: "user_local_dev_ceo",
+            email: "demo@youinc.study",
+            name: "Demo Student",
+            companyName: "You Inc.",
+            program: "MBA",
+            specialization: "General Management",
+            currentTerm: "Semester 1",
+            creditRating: "AAA",
+            sharePrice: 0.0,
+            totalValuation: 0.0,
+            onboardingCompleted: true,
+          },
+        });
+      }
+    } else if (isFresh) {
+      // Fresh unique user
       const freshTimestamp = Date.now();
-      const freshName = name || "Sanskriti Vadher";
-      const freshEmail = email || `sanskriti.${freshTimestamp}@gmail.com`;
       const freshClerkId = `user_fresh_${freshTimestamp}`;
+      const freshName = name || "New Student";
+      const freshEmail = email || `student_${freshTimestamp}@mba.edu`;
 
       user = await prisma.user.create({
         data: {
@@ -31,15 +53,16 @@ export async function POST(req: Request) {
         },
       });
     } else if (email) {
-      // Find existing user or create a new user with that email
+      // Sign in by email
       user = await prisma.user.findFirst({
         where: { email },
       });
 
       if (!user) {
+        const timestamp = Date.now();
         user = await prisma.user.create({
           data: {
-            clerkId: `user_${Date.now()}`,
+            clerkId: `user_${timestamp}`,
             email,
             name: name || email.split("@")[0],
             companyName: "You Inc.",
@@ -51,17 +74,19 @@ export async function POST(req: Request) {
         });
       }
     } else {
-      // Default Google sign-in: find the primary user or check onboarding state
-      user = await prisma.user.findFirst({
-        orderBy: { updatedAt: "desc" },
-      });
+      // Google sign-in: find existing by email or create a fresh account
+      const timestamp = Date.now();
+      const freshEmail = email || `student_${timestamp}@gmail.com`;
+      const existingUser = email ? await prisma.user.findFirst({ where: { email } }) : null;
 
-      if (!user) {
+      if (existingUser) {
+        user = existingUser;
+      } else {
         user = await prisma.user.create({
           data: {
-            clerkId: `user_google_${Date.now()}`,
-            email: "sanskriti.vadher@gmail.com",
-            name: "Sanskriti Vadher",
+            clerkId: `user_google_${timestamp}`,
+            email: freshEmail,
+            name: name || "Google Student",
             companyName: "You Inc.",
             creditRating: "AAA",
             sharePrice: 0.0,
@@ -72,12 +97,18 @@ export async function POST(req: Request) {
       }
     }
 
-    // Set auth cookie
+    // Set auth cookies for session tracking
     cookies().set("auth_user_id", user.id, {
       path: "/",
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 30, // 30 days
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    cookies().set("clerk_user_id", user.clerkId, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 30,
     });
 
     return NextResponse.json({
@@ -85,6 +116,7 @@ export async function POST(req: Request) {
       onboardingCompleted: user.onboardingCompleted,
       user: {
         id: user.id,
+        clerkId: user.clerkId,
         name: user.name,
         email: user.email,
         onboardingCompleted: user.onboardingCompleted,

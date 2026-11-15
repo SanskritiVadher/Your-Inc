@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { checkDailyAiBudget, recordAiCall } from "@/lib/boardroom/budget";
 import { retrieveRelevantMaterial, RagChunk } from "@/lib/boardroom/rag";
 
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Message query is required" }, { status: 400 });
     }
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "User session required" }, { status: 401 });
     }

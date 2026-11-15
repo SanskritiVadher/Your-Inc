@@ -490,7 +490,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
         <div className="relative p-6 sm:p-8 rounded-lg border-2 border-sindoor/40 bg-surface shadow-md">
           <CornerOrnament position="top-right" size={32} />
           <CornerOrnament position="bottom-left" size={32} />
-          <LedgerBorder stroke="#B3261E" className="opacity-15" />
+          <LedgerBorder stroke="#7A3B24" className="opacity-15" />
           <div className="relative z-10 max-w-xl mx-auto text-center space-y-4">
             <div className="w-12 h-12 mx-auto rounded-full bg-leaf/10 text-leaf flex items-center justify-center">
               <CheckCircle2 size={32} />
@@ -508,7 +508,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
               </p>
             </div>
 
-            <OrnamentDivider stroke="#B3261E" className="opacity-30" />
+            <OrnamentDivider stroke="#7A3B24" className="opacity-30" />
 
             {/* Performance Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left font-body">
@@ -723,7 +723,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
         className="relative p-6 sm:p-8 rounded-lg border-2 border-border bg-surface shadow-md"
         style={{ perspective: 1200 }}
       >
-        <LedgerBorder stroke="#B3261E" className="opacity-15" />
+        <LedgerBorder stroke="#7A3B24" className="opacity-15" />
 
         <div className="relative z-10 space-y-6">
           {/* Card Top Metadata */}
@@ -832,7 +832,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
             <div className="pt-4 flex justify-center">
               <button
                 onClick={() => setIsRevealed(true)}
-                className="px-6 py-2.5 rounded bg-cobalt text-white text-sm font-body font-medium hover:bg-cobalt/90 transition-all active:scale-95 shadow-sm flex items-center gap-2 whitespace-nowrap min-w-[150px] justify-center shrink-0"
+                className="px-6 py-2.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-sm font-body font-medium hover:bg-cobalt/90 transition-all active:scale-95 shadow-sm flex items-center gap-2 whitespace-nowrap min-w-[150px] justify-center shrink-0"
               >
                 <span className="whitespace-nowrap">Reveal Answer</span>
                 <span className="px-1.5 py-0.5 rounded bg-white/20 text-xs font-body whitespace-nowrap">Space</span>
@@ -840,7 +840,7 @@ export const ReviewSession: React.FC<ReviewSessionProps> = ({
             </div>
           )}
 
-          <OrnamentDivider stroke="#B3261E" className="opacity-20" />
+          <OrnamentDivider stroke="#7A3B24" className="opacity-20" />
 
           {/* FSRS Grading Bar (Visible Once Revealed) */}
           {isRevealed && (

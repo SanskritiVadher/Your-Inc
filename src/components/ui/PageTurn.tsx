@@ -65,7 +65,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute top-0 left-0 right-0 h-3"
               style={{
                 background:
-                  "repeating-linear-gradient(90deg, #1F4E8C 0px, #1F4E8C 2px, transparent 2px, transparent 6px, #E3A33B 6px, #E3A33B 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(90deg, #5B6B2E 0px, #5B6B2E 2px, transparent 2px, transparent 6px, #E3A33B 6px, #E3A33B 8px, transparent 8px, transparent 12px)",
               }}
             />
             {/* Bottom border */}
@@ -73,7 +73,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute bottom-0 left-0 right-0 h-3"
               style={{
                 background:
-                  "repeating-linear-gradient(90deg, #1F4E8C 0px, #1F4E8C 2px, transparent 2px, transparent 6px, #E3A33B 6px, #E3A33B 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(90deg, #5B6B2E 0px, #5B6B2E 2px, transparent 2px, transparent 6px, #E3A33B 6px, #E3A33B 8px, transparent 8px, transparent 12px)",
               }}
             />
             {/* Left border */}
@@ -81,7 +81,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute top-3 bottom-3 left-0 w-3"
               style={{
                 background:
-                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #1F4E8C 6px, #1F4E8C 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
               }}
             />
             {/* Right border */}
@@ -89,7 +89,7 @@ const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(
               className="absolute top-3 bottom-3 right-0 w-3"
               style={{
                 background:
-                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #1F4E8C 6px, #1F4E8C 8px, transparent 8px, transparent 12px)",
+                  "repeating-linear-gradient(180deg, #3A9C9F 0px, #3A9C9F 2px, transparent 2px, transparent 6px, #5B6B2E 6px, #5B6B2E 8px, transparent 8px, transparent 12px)",
               }}
             />
           </div>

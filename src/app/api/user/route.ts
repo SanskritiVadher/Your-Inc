@@ -1,20 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const clerkId = searchParams.get("clerkId") || "user_local_dev_ceo";
+    const user = await getApiCurrentUser({ allowUnonboarded: true });
 
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { clerkId },
-          { onboardingCompleted: true },
-        ],
-      },
+    if (!user) {
+      return NextResponse.json({ user: null, onboardingNeeded: true });
+    }
+
+    const fullUser = await prisma.user.findUnique({
+      where: { id: user.id },
       include: {
         subjects: {
           include: {
@@ -29,11 +28,11 @@ export async function GET(req: Request) {
       },
     });
 
-    if (!user) {
+    if (!fullUser) {
       return NextResponse.json({ user: null, onboardingNeeded: true });
     }
 
-    return NextResponse.json({ user, onboardingNeeded: !user.onboardingCompleted });
+    return NextResponse.json({ user: fullUser, onboardingNeeded: !fullUser.onboardingCompleted });
   } catch (err: unknown) {
     console.error("Fetch user error:", err);
     return NextResponse.json(

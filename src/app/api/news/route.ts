@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getCachedNewsItems, syncNewsFeeds } from "@/lib/news/rssService";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     const { searchParams } = new URL(request.url);
 
     const limit = parseInt(searchParams.get("limit") || "20", 10);

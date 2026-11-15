@@ -233,7 +233,7 @@ export const ColdCallSimulator: React.FC = () => {
     <div className="space-y-6">
       {/* Cold Call Scenario Surface */}
       <div className="relative p-6 sm:p-8 rounded-lg border-2 border-sindoor/40 bg-surface shadow-md">
-        <LedgerBorder stroke="#B3261E" className="opacity-15" />
+        <LedgerBorder stroke="#7A3B24" className="opacity-15" />
 
         <div className="relative z-10 space-y-6">
           {/* Header Metadata */}
@@ -371,7 +371,7 @@ export const ColdCallSimulator: React.FC = () => {
           {/* TURN COMPLETED: Final Scoring & Balance Sheet Impact */}
           {turn === "completed" && evaluationResult && (
             <div className="space-y-5 pt-3 border-t border-border animate-in fade-in duration-300">
-              <OrnamentDivider stroke="#B3261E" className="opacity-30" />
+              <OrnamentDivider stroke="#7A3B24" className="opacity-30" />
 
               <div className="space-y-2 text-center">
                 <span className="font-mono text-xs font-bold uppercase tracking-widest text-leaf">

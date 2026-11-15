@@ -74,7 +74,7 @@ export const ExplainableNumberModal: React.FC<ExplainableNumberModalProps> = ({
       <div className="space-y-5">
         {/* Header Summary Banner */}
         <div className="relative p-4 rounded bg-surface border border-border">
-          <LedgerBorder stroke="#B3261E" className="opacity-15" />
+          <LedgerBorder stroke="#7A3B24" className="opacity-15" />
           <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
             <div>
               <span className="font-body text-xs text-text-muted">
@@ -96,7 +96,7 @@ export const ExplainableNumberModal: React.FC<ExplainableNumberModalProps> = ({
           </div>
         </div>
 
-        <OrnamentDivider stroke="#B3261E" className="opacity-30" />
+        <OrnamentDivider stroke="#7A3B24" className="opacity-30" />
 
         {/* Transaction Rows */}
         <div className="space-y-2">

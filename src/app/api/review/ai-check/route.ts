@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { logAiCall } from "@/lib/deckGenerator";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
 
     // AI grading rubric calculation
     const typedWords = typedAnswer.toLowerCase().split(/\s+/).filter(Boolean);

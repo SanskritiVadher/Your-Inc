@@ -1,6 +1,7 @@
 import React from "react";
 import AppShell from "@/components/layout/AppShell";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import { AdminDashboardClient } from "@/components/admin/AdminDashboardClient";
 import { computeAdminCohortMetrics } from "@/lib/analytics/posthog";
 import { getAiCostAnalytics } from "@/lib/feedback/feedbackManager";
@@ -9,9 +10,7 @@ import { getAllFeatureFlags } from "@/lib/flags/featureFlags";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const user = await prisma.user.findFirst({
-    include: { subjects: true },
-  });
+  const user = await getCurrentUser();
 
   const tickerItems = (user?.subjects || []).map((s) => ({
     id: s.id,

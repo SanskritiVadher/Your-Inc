@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getUserBlindSpots } from "@/lib/review/blindSpotService";
 
 export async function GET() {
   try {
-    const user = await prisma.user.findFirst();
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

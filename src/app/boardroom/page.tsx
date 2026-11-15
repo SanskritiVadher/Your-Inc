@@ -4,6 +4,7 @@ import { BoardroomClient } from "./BoardroomClient";
 import { DateOverridePill } from "@/components/dev/DateOverridePill";
 import { PageHeaderBand } from "@/components/motifs/PageHeaderBand";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import { getEffectiveDate } from "@/lib/fsrs";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,9 @@ interface BoardroomPageProps {
 export default async function BoardroomPage({ searchParams }: BoardroomPageProps) {
   const activeTab = searchParams?.tab || "tutor";
 
-  const user = await prisma.user.findFirst({
+  const currentUser = await getCurrentUser();
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser.id },
     include: {
       subjects: {
         include: {

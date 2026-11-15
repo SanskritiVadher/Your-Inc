@@ -1,12 +1,15 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import AppShell from "@/components/layout/AppShell";
 import { LibraryClient } from "@/components/library/LibraryClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function LibraryPage() {
-  const user = await prisma.user.findFirst({
+  const currentUser = await getCurrentUser();
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser.id },
     include: {
       terms: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],

@@ -229,7 +229,7 @@ export default function OnboardingPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3 rounded bg-cobalt text-white font-medium text-sm hover:bg-cobalt/90 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
+              className="w-full py-3 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium text-sm hover:bg-cobalt/90 transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
             >
               {submitting ? "Setting up..." : "Start"}
             </button>

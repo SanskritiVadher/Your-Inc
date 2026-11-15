@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { executeCardReview } from "@/lib/fsrs";
 import { Rating } from "ts-fsrs";
 
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { cardId, grade }: { cardId: string; grade: number } = body;
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (!cardId || ![1, 2, 3, 4].includes(grade)) {

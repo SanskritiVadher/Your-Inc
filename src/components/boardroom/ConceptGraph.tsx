@@ -125,11 +125,11 @@ export const ConceptGraph: React.FC = () => {
   const getNodeColor = (risk: string) => {
     switch (risk) {
       case "critical":
-        return "#B3261E"; // Sindoor red
+        return "#7A3B24"; // Kattha brown
       case "warning":
         return "#D99A1E"; // Turmeric amber
       default:
-        return "#3F7D4E"; // Leaf green
+        return "#5B6B2E"; // Mehendi green
     }
   };
 
@@ -373,7 +373,7 @@ export const ConceptGraph: React.FC = () => {
                 </p>
               </div>
 
-              <OrnamentDivider stroke="#B3261E" className="opacity-30" />
+              <OrnamentDivider stroke="#7A3B24" className="opacity-30" />
 
               {/* Actions */}
               <div className="space-y-2 pt-1">

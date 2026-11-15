@@ -82,7 +82,7 @@ export const AnswerGraderView: React.FC<AnswerGraderProps> = ({ subjects = [] })
   return (
     <div className="space-y-6">
       <div className="relative p-6 sm:p-8 rounded-lg border-2 border-border bg-surface shadow-md font-body">
-        <LedgerBorder stroke="#B3261E" className="opacity-15" />
+        <LedgerBorder stroke="#7A3B24" className="opacity-15" />
 
         <div className="relative z-10 space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
@@ -171,7 +171,7 @@ export const AnswerGraderView: React.FC<AnswerGraderProps> = ({ subjects = [] })
           {/* Evaluation Results */}
           {result && (
             <div className="space-y-5 pt-4 border-t border-border animate-in fade-in duration-300">
-              <OrnamentDivider stroke="#B3261E" className="opacity-30" />
+              <OrnamentDivider stroke="#7A3B24" className="opacity-30" />
 
               {/* Score Header */}
               <div className="p-4 rounded border border-border bg-surface flex flex-wrap items-center justify-between gap-4">

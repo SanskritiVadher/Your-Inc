@@ -18,7 +18,7 @@ export const CornerOrnament: React.FC<CornerOrnamentProps> = ({
   position = "top-right",
   size = 28,
   className = "",
-  color = "#B3261E",
+  color = "#7A3B24",
 }) => {
   const rotation = {
     "top-right": "",

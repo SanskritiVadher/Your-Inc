@@ -62,7 +62,7 @@ export function CombinedRevisionSheetsClient({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-2xs"
           >
             <Download size={14} />
             <span>Download PDF</span>

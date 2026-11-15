@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getEffectiveDate } from "@/lib/fsrs";
 import { calculateDeadlineRiskScore } from "@/lib/planner/riskScore";
 import { parseNaturalLanguageAssignment, extractAssignmentBrief } from "@/lib/planner/naturalLanguageParser";
@@ -8,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
@@ -78,7 +79,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();

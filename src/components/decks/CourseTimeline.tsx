@@ -110,7 +110,7 @@ export const CourseTimeline: React.FC<CourseTimelineProps> = ({
               {/* One-click "Revise this session" */}
               <Link
                 href={`/review?deckId=${deck.id}`}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-cobalt text-white text-xs font-body font-medium shadow-xs hover:bg-cobalt/90 transition-colors whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium shadow-xs hover:bg-cobalt/90 transition-colors whitespace-nowrap shrink-0"
               >
                 <RotateCcw size={13} />
                 <span className="whitespace-nowrap">Revise Session</span>

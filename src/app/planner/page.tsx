@@ -1,12 +1,15 @@
 import React from "react";
 import AppShell from "@/components/layout/AppShell";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import { PlannerContainerClient } from "@/components/planner/PlannerContainerClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function PlannerPage() {
-  const user = await prisma.user.findFirst({
+  const currentUser = await getCurrentUser();
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser.id },
     include: {
       subjects: true,
       notificationSettings: true,

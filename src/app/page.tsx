@@ -14,40 +14,12 @@ import {
   Upload,
 } from "lucide-react";
 
+import { getCurrentUser } from "@/lib/auth";
+
 export const dynamic = "force-dynamic";
 
 export default async function TodayPage() {
-  const authCookie = cookies().get("auth_user_id")?.value;
-  let user = null;
-
-  if (authCookie) {
-    user = await prisma.user.findUnique({
-      where: { id: authCookie },
-      include: {
-        subjects: { orderBy: { createdAt: "asc" } },
-        targetRoles: { take: 1 },
-        cohortMembers: { take: 1 },
-        locationPermission: true,
-      },
-    });
-  }
-
-  if (!user) {
-    user = await prisma.user.findFirst({
-      orderBy: { updatedAt: "desc" },
-      include: {
-        subjects: { orderBy: { createdAt: "asc" } },
-        targetRoles: { take: 1 },
-        cohortMembers: { take: 1 },
-        locationPermission: true,
-      },
-    });
-  }
-
-  // If user doesn't exist or hasn't finished onboarding, redirect to onboarding
-  if (!user || !user.onboardingCompleted) {
-    redirect("/onboarding");
-  }
+  const user = await getCurrentUser();
 
   const effectiveNow = await getEffectiveDate(user.id);
   const totalDeadlines = await prisma.assignment.count({
@@ -143,7 +115,7 @@ export default async function TodayPage() {
             <div>
               <Link
                 href="/decks"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded bg-cobalt text-white font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
               >
                 <Upload size={16} />
                 <span>Upload your first class deck</span>
@@ -158,7 +130,7 @@ export default async function TodayPage() {
           <div>
             <Link
               href="/review"
-              className="inline-flex items-center justify-center px-8 py-3 rounded bg-cobalt text-white font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
+              className="inline-flex items-center justify-center px-8 py-3 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-sm font-medium hover:bg-cobalt/90 transition-colors shadow-2xs whitespace-nowrap"
             >
               Begin
             </Link>

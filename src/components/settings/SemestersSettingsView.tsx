@@ -330,7 +330,7 @@ export function SemestersSettingsView({
           <button
             type="button"
             onClick={() => setIsAddOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
           >
             <Plus size={14} />
             <span className="whitespace-nowrap">Add Semester</span>
@@ -616,7 +616,7 @@ export function SemestersSettingsView({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-cobalt text-white font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Save Semester
             </button>
@@ -673,7 +673,7 @@ export function SemestersSettingsView({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-cobalt text-white font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Save Changes
             </button>
@@ -749,7 +749,7 @@ export function SemestersSettingsView({
               <button
                 type="submit"
                 disabled={!selectedFile || importing}
-                className="px-4 py-2 rounded bg-cobalt text-white font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
+                className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs disabled:opacity-40"
               >
                 {importing ? "Processing Archive..." : "Start Import"}
               </button>
@@ -853,7 +853,7 @@ export function SemestersSettingsView({
                 setWrapUpModalSemester(null);
                 setWrapUpData(null);
               }}
-              className="px-4 py-2 rounded bg-cobalt text-white font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
+              className="px-4 py-2 rounded bg-cobalt text-white dark:text-[#141B2D] font-medium hover:bg-cobalt/90 transition-colors whitespace-nowrap shadow-xs"
             >
               Done Reading
             </button>

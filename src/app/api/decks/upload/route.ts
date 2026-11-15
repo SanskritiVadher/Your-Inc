@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { calculateFileHash, parsePptx, parsePdf, parseZipDecks, ParsedDeckData } from "@/lib/deckParser";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "User session required" }, { status: 401 });
     }

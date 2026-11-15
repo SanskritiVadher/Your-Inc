@@ -136,7 +136,7 @@ export const MoreMenu: React.FC<MoreMenuProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 p-1.5 rounded-full border border-border bg-surface hover:border-sindoor/60 transition-all focus:outline-none focus:ring-2 focus:ring-sindoor/30"
+        className="flex items-center space-x-2 p-1.5 rounded-full border border-border bg-surface hover:border-primary/60 transition-all focus:outline-none focus:ring-2 focus:ring-primary/30"
         aria-label="User profile and more features menu"
         title="More features & settings"
       >

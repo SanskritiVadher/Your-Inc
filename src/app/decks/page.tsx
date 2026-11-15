@@ -1,16 +1,13 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import AppShell from "@/components/layout/AppShell";
 import { DecksOverviewClient } from "./DecksOverviewClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function DecksPage() {
-  const user = await prisma.user.findFirst({
-    include: {
-      subjects: { select: { id: true, name: true, code: true, sharePrice: true } },
-    },
-  });
+  const user = await getCurrentUser();
 
   const tickerItems = (user?.subjects || []).map((s) => ({
     id: s.id,

@@ -362,7 +362,7 @@ export function NewsPageClient() {
                 placeholder="Search headlines, MBA topics, or keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:outline-none focus:ring-1 focus:ring-sindoor"
+                className="w-full pl-9 pr-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
 
@@ -381,7 +381,7 @@ export function NewsPageClient() {
                   onClick={() => setSelectedSubject(subj.val)}
                   className={`px-2.5 py-1 rounded transition-colors ${
                     selectedSubject === subj.val
-                      ? "bg-sindoor text-[#FBF5E8] font-medium"
+                      ? "bg-primary text-white dark:text-[#141B2D] font-medium"
                       : "bg-bg text-text hover:bg-border/40"
                   }`}
                 >
@@ -637,7 +637,7 @@ export function NewsPageClient() {
                   placeholder="The Hindu - Industry"
                   value={newFeedName}
                   onChange={(e) => setNewFeedName(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-sindoor"
+                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-primary"
                 />
               </div>
 
@@ -651,7 +651,7 @@ export function NewsPageClient() {
                   placeholder="https://example.com/rss/feed.xml"
                   value={newFeedUrl}
                   onChange={(e) => setNewFeedUrl(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-sindoor"
+                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-primary"
                 />
               </div>
 
@@ -662,7 +662,7 @@ export function NewsPageClient() {
                 <select
                   value={newFeedCategory}
                   onChange={(e) => setNewFeedCategory(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-sindoor"
+                  className="w-full px-3 py-1.5 text-xs font-mono bg-bg border border-border rounded focus:ring-1 focus:ring-primary"
                 >
                   <option value="Business">Business</option>
                   <option value="Economy">Economy</option>

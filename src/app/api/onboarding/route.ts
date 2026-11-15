@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -16,34 +17,52 @@ export async function POST(req: Request) {
       subjects = [],
     } = body;
 
-    const authCookie = cookies().get("auth_user_id")?.value;
-    let user = null;
+    // 1. Resolve Clerk User ID
+    let clerkUserId: string | null = null;
 
-    if (authCookie) {
-      user = await prisma.user.findUnique({
-        where: { id: authCookie },
-      });
+    try {
+      const clerkAuth = auth();
+      if (clerkAuth?.userId) {
+        clerkUserId = clerkAuth.userId;
+      }
+    } catch (err) {}
+
+    if (!clerkUserId) {
+      clerkUserId = cookies().get("clerk_user_id")?.value || null;
     }
 
-    if (!user && body.clerkId) {
+    if (!clerkUserId && body.clerkId) {
+      clerkUserId = body.clerkId;
+    }
+
+    let user = null;
+
+    if (clerkUserId) {
       user = await prisma.user.findUnique({
-        where: { clerkId: body.clerkId },
+        where: { clerkId: clerkUserId },
       });
     }
 
     if (!user) {
-      user = await prisma.user.findFirst({
-        orderBy: { updatedAt: "desc" },
-      });
+      const authCookie = cookies().get("auth_user_id")?.value;
+      if (authCookie) {
+        user = await prisma.user.findUnique({
+          where: { id: authCookie },
+        });
+        if (user) {
+          clerkUserId = user.clerkId;
+        }
+      }
     }
 
     const userName = name && name.trim() ? name.trim() : (user?.name || "Student");
     const termLabel = currentTerm || `Semester ${semester || 1}`;
 
     if (!user) {
+      const finalClerkId = clerkUserId || `user_${Date.now()}`;
       user = await prisma.user.create({
         data: {
-          clerkId: `user_${Date.now()}`,
+          clerkId: finalClerkId,
           email: `${userName.toLowerCase().replace(/\s+/g, ".")}@mba.edu`,
           name: userName,
           companyName: "You Inc.",
@@ -70,15 +89,21 @@ export async function POST(req: Request) {
       });
     }
 
-    // Set or refresh auth cookie
+    // Refresh cookies
     cookies().set("auth_user_id", user.id, {
       path: "/",
       httpOnly: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 30,
     });
+    cookies().set("clerk_user_id", user.clerkId, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 30,
+    });
 
-    // Create or find Term record
+    // Create Term record for this user
     let term = await prisma.term.findFirst({
       where: {
         userId: user.id,
@@ -87,7 +112,6 @@ export async function POST(req: Request) {
     });
 
     if (!term) {
-      // Unset other terms as current if any
       await prisma.term.updateMany({
         where: { userId: user.id },
         data: { isCurrent: false },
@@ -102,7 +126,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // Create Subjects if provided
+    // Create Subjects strictly for THIS user
     if (Array.isArray(subjects) && subjects.length > 0) {
       for (const subj of subjects) {
         const subjName = typeof subj === "string" ? subj.trim() : subj?.name?.trim();
@@ -114,7 +138,6 @@ export async function POST(req: Request) {
           "SUB"
         );
 
-        // Check if subject already exists
         const existingSubj = await prisma.subject.findFirst({
           where: {
             userId: user.id,

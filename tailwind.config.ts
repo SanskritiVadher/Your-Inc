@@ -15,10 +15,30 @@ const config: Config = {
         text: "var(--color-text)",
         "text-muted": "var(--color-text-muted)",
         border: "var(--color-border)",
+        primary: {
+          DEFAULT: "var(--color-primary)",
+          light: "#A3B46A",
+          dark: "#5B6B2E",
+        },
+        accent: {
+          DEFAULT: "var(--color-accent)",
+          light: "#D08A6E",
+          dark: "#7A3B24",
+        },
+        kattha: {
+          DEFAULT: "var(--color-accent)",
+          light: "#D08A6E",
+          dark: "#7A3B24",
+        },
+        mehendi: {
+          DEFAULT: "var(--color-primary)",
+          light: "#A3B46A",
+          dark: "#5B6B2E",
+        },
         cobalt: {
-          DEFAULT: "var(--color-cobalt)",
-          light: "#7FA6E0",
-          dark: "#1F4E8C",
+          DEFAULT: "var(--color-primary)",
+          light: "#A3B46A",
+          dark: "#5B6B2E",
         },
         turquoise: {
           DEFAULT: "var(--color-turquoise)",
@@ -31,20 +51,20 @@ const config: Config = {
           dark: "#E3A33B",
         },
         terracotta: {
-          DEFAULT: "var(--color-terracotta)",
-          light: "#D8725B",
-          dark: "#B5523B",
+          DEFAULT: "var(--color-accent)",
+          light: "#D08A6E",
+          dark: "#7A3B24",
         },
         // Backwards compatibility with previous motif tokens
         sindoor: {
-          DEFAULT: "var(--color-cobalt)",
-          light: "#7FA6E0",
-          dark: "#1F4E8C",
+          DEFAULT: "var(--color-accent)",
+          light: "#D08A6E",
+          dark: "#7A3B24",
         },
         leaf: {
-          DEFAULT: "var(--color-turquoise)",
-          light: "#6CC4C2",
-          dark: "#3A9C9F",
+          DEFAULT: "var(--color-primary)",
+          light: "#A3B46A",
+          dark: "#5B6B2E",
         },
         turmeric: {
           DEFAULT: "var(--color-marigold)",
@@ -52,9 +72,9 @@ const config: Config = {
           dark: "#E3A33B",
         },
         indigo: {
-          DEFAULT: "var(--color-cobalt)",
-          light: "#7FA6E0",
-          dark: "#1F4E8C",
+          DEFAULT: "var(--color-primary)",
+          light: "#A3B46A",
+          dark: "#5B6B2E",
         },
       },
       fontFamily: {

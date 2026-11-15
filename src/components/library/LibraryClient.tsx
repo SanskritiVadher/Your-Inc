@@ -174,7 +174,7 @@ export function LibraryClient({ initialItems, semesters, subjects }: LibraryClie
         <button
           type="button"
           onClick={() => setIsPrepModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-cobalt text-white text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-cobalt text-white dark:text-[#141B2D] text-xs font-body font-medium hover:bg-cobalt/90 transition-colors shadow-xs whitespace-nowrap shrink-0"
         >
           <Sparkles size={14} />
           <span className="whitespace-nowrap">Prepare for an Interview</span>
@@ -193,7 +193,7 @@ export function LibraryClient({ initialItems, semesters, subjects }: LibraryClie
               onClick={() => setSelectedType(tab.id)}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-body transition-colors whitespace-nowrap ${
                 isActive
-                  ? "bg-cobalt text-white font-medium shadow-2xs"
+                  ? "bg-cobalt text-white dark:text-[#141B2D] font-medium shadow-2xs"
                   : "bg-surface text-text-muted hover:text-text border border-border/50"
               }`}
             >

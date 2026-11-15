@@ -1,25 +1,11 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const authCookie = cookies().get("auth_user_id")?.value;
-    let user = null;
-
-    if (authCookie) {
-      user = await prisma.user.findUnique({
-        where: { id: authCookie },
-      });
-    }
-
-    if (!user) {
-      user = await prisma.user.findFirst({
-        orderBy: { updatedAt: "desc" },
-      });
-    }
+    const user = await getApiCurrentUser({ allowUnonboarded: true });
 
     if (!user) {
       return NextResponse.json({ user: null });
@@ -28,6 +14,7 @@ export async function GET() {
     return NextResponse.json({
       user: {
         id: user.id,
+        clerkId: user.clerkId,
         name: user.name,
         email: user.email,
         onboardingCompleted: user.onboardingCompleted,

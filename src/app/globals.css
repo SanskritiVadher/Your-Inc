@@ -3,36 +3,62 @@
 @tailwind utilities;
 
 :root {
-  /* Day Palette: "Kagzi" (Sanganeri Handmade Paper & Jaipur Blue Pottery) */
+  /* Day Palette: "Kagzi" (Sanganeri Handmade Paper & Mehendi Green / Kattha Brown) */
   --color-bg: #F7F1E5;
   --color-surface: #FCF8F0;
   --color-text: #2A2522;
   --color-text-muted: #6B625B;
   --color-border: rgba(42, 37, 34, 0.12);
 
-  --color-cobalt: #1F4E8C;
+  --color-primary: #5B6B2E;
+  --color-accent: #7A3B24;
+  --color-cobalt: #5B6B2E;
+  --color-mehendi: #5B6B2E;
+  --color-kattha: #7A3B24;
   --color-turquoise: #3A9C9F;
   --color-marigold: #E3A33B;
-  --color-terracotta: #B5523B;
+  --color-terracotta: #7A3B24;
+  --color-primary-fg: #FFFFFF;
 
   /* Sanganeri handmade paper fiber texture */
   --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='kagziFiber'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23kagziFiber)' opacity='0.028'/%3E%3C/svg%3E");
 }
 
 .dark {
-  /* Night Palette: "Neela raat" (Deep Indigo Pottery & Warm Diya Glow) */
+  /* Night Palette: (Deep Ink Paper & Mehendi Green / Kattha Brown) */
   --color-bg: #141B2D;
   --color-surface: #1C2438;
   --color-text: #EDE6D8;
   --color-text-muted: #9E978C;
   --color-border: rgba(237, 230, 216, 0.10);
 
-  --color-cobalt: #7FA6E0;
+  --color-primary: #A3B46A;
+  --color-accent: #D08A6E;
+  --color-cobalt: #A3B46A;
+  --color-mehendi: #A3B46A;
+  --color-kattha: #D08A6E;
   --color-turquoise: #6CC4C2;
   --color-marigold: #F0BE6A;
-  --color-terracotta: #D8725B;
+  --color-terracotta: #D08A6E;
+  --color-primary-fg: #141B2D;
 
   --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='neelaFiber'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23neelaFiber)' opacity='0.02'/%3E%3C/svg%3E");
+}
+
+/* Ensure primary buttons meet WCAG AA contrast in both light and dark modes */
+.dark .bg-cobalt.text-white,
+.dark .bg-primary.text-white,
+.dark button.bg-cobalt.text-white,
+.dark button.bg-primary.text-white,
+.dark a.bg-cobalt.text-white,
+.dark a.bg-primary.text-white {
+  color: #141B2D !important;
+}
+
+/* Default browser focus rings & links */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 body {

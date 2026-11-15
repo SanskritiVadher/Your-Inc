@@ -3,6 +3,7 @@ import AppShell from "@/components/layout/AppShell";
 import { CalmReviewWorkspace } from "@/components/review/CalmReviewWorkspace";
 import { DateOverridePill } from "@/components/dev/DateOverridePill";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import { getEffectiveDate } from "@/lib/fsrs";
 
 export const dynamic = "force-dynamic";
@@ -20,16 +21,7 @@ export default async function ReviewPage({ searchParams }: ReviewPageProps) {
   const subjectId = searchParams?.subjectId || "";
   const deckId = searchParams?.deckId || "";
 
-  const user = await prisma.user.findFirst({
-    include: {
-      subjects: {
-        orderBy: { createdAt: "asc" },
-      },
-      targetRoles: { take: 1 },
-      cohortMembers: { take: 1 },
-      locationPermission: true,
-    },
-  });
+  const user = await getCurrentUser();
 
   const effectiveNow = user ? await getEffectiveDate(user.id) : new Date();
 

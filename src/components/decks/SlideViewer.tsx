@@ -394,7 +394,7 @@ export const SlideViewer: React.FC<SlideViewerProps> = ({
                   type="button"
                   disabled={isSavingGap || !gapExplanation.trim()}
                   onClick={handleSaveGapExplanation}
-                  className="px-3.5 py-1.5 rounded bg-cobalt text-white font-body text-xs font-medium hover:bg-cobalt/90 shrink-0 whitespace-nowrap disabled:opacity-50 transition-colors"
+                  className="px-3.5 py-1.5 rounded bg-cobalt text-white dark:text-[#141B2D] font-body text-xs font-medium hover:bg-cobalt/90 shrink-0 whitespace-nowrap disabled:opacity-50 transition-colors"
                 >
                   {isSavingGap ? "Saving..." : "Fill Gap"}
                 </button>

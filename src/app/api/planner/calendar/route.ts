@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getUserCalendarEvents } from "@/lib/planner/calendarIcs";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const [events, timetable, subjects] = await Promise.all([
@@ -53,7 +54,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();

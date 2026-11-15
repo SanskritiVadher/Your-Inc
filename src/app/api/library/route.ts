@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export async function GET(req: Request) {
     const type = searchParams.get("type") || "all";
     const q = (searchParams.get("q") || "").trim().toLowerCase();
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ items: [], semesters: [], subjects: [] });
     }

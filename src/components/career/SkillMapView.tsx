@@ -229,8 +229,8 @@ export function SkillMapView({ skills, suggestions, onRefresh }: SkillMapViewPro
                   <Radar
                     name="Skill Proficiency"
                     dataKey="score"
-                    stroke="#3F7D4E"
-                    fill="#3F7D4E"
+                    stroke="#5B6B2E"
+                    fill="#5B6B2E"
                     fillOpacity={0.35}
                   />
                 </RadarChart>

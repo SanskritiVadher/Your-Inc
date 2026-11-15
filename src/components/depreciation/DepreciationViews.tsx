@@ -316,13 +316,13 @@ export const ConceptDecayCurve: React.FC<{
                 return null;
               }}
             />
-            <ReferenceLine y={50} stroke="#B3261E" strokeDasharray="3 3" label={{ value: "Target 50%", fill: "#B3261E", fontSize: 9 }} />
+            <ReferenceLine y={50} stroke="#7A3B24" strokeDasharray="3 3" label={{ value: "Target 50%", fill: "#7A3B24", fontSize: 9 }} />
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#B3261E"
+              stroke="#7A3B24"
               strokeWidth={2}
-              dot={{ r: 3, fill: "#B3261E" }}
+              dot={{ r: 3, fill: "#7A3B24" }}
               activeDot={{ r: 5 }}
             />
           </LineChart>

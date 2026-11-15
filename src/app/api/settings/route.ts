@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const user = await prisma.user.findFirst({
-      select: {
-        id: true,
-        blindSpotsEnabled: true,
-        companyName: true,
-        name: true,
-      },
-    });
+    const user = await getApiCurrentUser();
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -26,7 +20,7 @@ export async function GET() {
 
 export async function PUT(req: NextRequest) {
   try {
-    const user = await prisma.user.findFirst();
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

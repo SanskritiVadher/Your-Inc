@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { getEffectiveDate, calculateRetrievability } from "@/lib/fsrs";
 
 export const dynamic = "force-dynamic";
@@ -11,9 +12,7 @@ export async function GET(req: Request) {
     const subjectId = searchParams.get("subjectId");
     const deckId = searchParams.get("deckId");
 
-    const user = await prisma.user.findFirst({
-      select: { id: true, dailyNewCardLimit: true },
-    });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ cards: [] });
 
     const effectiveNow = await getEffectiveDate(user.id);

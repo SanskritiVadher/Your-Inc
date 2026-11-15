@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 import { isSensitivePersonalData } from "@/lib/memory";
 import { MemoryType } from "@prisma/client";
 
@@ -13,9 +14,7 @@ export async function GET(req: Request) {
     const type = searchParams.get("type") as MemoryType | null;
 
     // Get active user
-    const user = await prisma.user.findFirst({
-      select: { id: true },
-    });
+    const user = await getApiCurrentUser();
 
     if (!user) {
       return NextResponse.json({ memories: [] });
@@ -81,7 +80,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "User session required" }, { status: 401 });
     }

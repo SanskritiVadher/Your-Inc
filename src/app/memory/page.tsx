@@ -1,18 +1,15 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
 import AppShell from "@/components/layout/AppShell";
+import { getCurrentUser } from "@/lib/auth";
 import { MemoryVaultClient } from "./MemoryVaultClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function MemoryVaultPage() {
-  const user = await prisma.user.findFirst({
-    include: {
-      subjects: { select: { id: true, name: true, code: true, sharePrice: true } },
-    },
-  });
+  const user = await getCurrentUser();
 
-  const tickerItems = (user?.subjects || []).map((s) => ({
+  const tickerItems = (user.subjects || []).map((s) => ({
     id: s.id,
     name: s.name,
     code: s.code,
@@ -21,7 +18,7 @@ export default async function MemoryVaultPage() {
   }));
 
   const initialMemories = await prisma.memoryEntry.findMany({
-    where: { userId: user?.id || "" },
+    where: { userId: user.id },
     include: {
       subject: { select: { id: true, name: true, code: true } },
     },
@@ -29,10 +26,10 @@ export default async function MemoryVaultPage() {
   });
 
   return (
-    <AppShell tickerItems={tickerItems} userCompanyName={user?.companyName || "You Inc."}>
+    <AppShell tickerItems={tickerItems} userCompanyName={user.companyName || "You Inc."}>
       <MemoryVaultClient
         initialMemories={initialMemories}
-        subjects={user?.subjects || []}
+        subjects={user.subjects || []}
       />
     </AppShell>
   );

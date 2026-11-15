@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getApiCurrentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export async function GET(req: Request) {
     const conceptId = searchParams.get("conceptId");
     const slideId = searchParams.get("slideId");
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ notes: [] });
 
     const notes = await prisma.note.findMany({
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, content, subjectId, conceptId, slideId, tags } = body;
 
-    const user = await prisma.user.findFirst({ select: { id: true } });
+    const user = await getApiCurrentUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (!title?.trim() || !subjectId) {
