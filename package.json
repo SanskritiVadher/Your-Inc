@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint",
     "test": "npx tsx tests/cohort_launch.test.ts && npx tsx tests/career.test.ts && npx tsx tests/location.test.ts && npx tsx tests/planner.test.ts && npx tsx tests/economy.test.ts && npx tsx tests/student_features.test.ts",
